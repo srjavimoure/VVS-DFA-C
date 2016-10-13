@@ -1,0 +1,11 @@
+language: c
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+    - libcunit1-dev
+    - lcov
+
+script: make cunit && ./Alphabet-test && ./DFA-test && ./GenList-test && ./State-test && ./Symbol-test && ./Transition-test && make lcov
