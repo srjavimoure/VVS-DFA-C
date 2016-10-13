@@ -8,4 +8,4 @@ addons:
     - libcunit1-dev
     - lcov
 
-script: make cunit && ./Alphabet-test && ./DFA-test && ./GenList-test && ./State-test && ./Symbol-test && ./Transition-test && make lcov
+script: make cunit && make test
