@@ -40,6 +40,7 @@ int clean_suite1(void)
  */
 void test_Transition(void)
 {
+	CU_ASSERT_STRING_EQUAL("a", "a");
 }
 
 /*
