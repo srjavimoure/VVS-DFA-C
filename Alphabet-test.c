@@ -16,6 +16,8 @@
 */
 
 #include "Alphabet.h"
+#include "mocks/MockSymbol.c"
+#include "mocks/MockGenList.c"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 
@@ -40,7 +42,7 @@ int clean_suite1(void)
  */
 void test_Alphabet(void)
 {
-	CU_ASSERT_STRING_EQUAL("a", "a");
+	CU_PASS("Alphabet passed.\n");
 }
 
 /*
@@ -57,7 +59,7 @@ int main()
       return CU_get_error();
 
    /* añadir un conjunto de pruebas al registro */
-   pSuite = CU_add_suite("Suite_1", init_suite1, clean_suite1);
+   pSuite = CU_add_suite("Suite_Alphabet", init_suite1, clean_suite1);
    if (NULL == pSuite) {
       CU_cleanup_registry();
       return CU_get_error();

@@ -97,7 +97,6 @@ DFA DFAasString(char *string) {
 	GenList trans = GenList_newGenList(20);
 	State begin, end;
 	Symbol input;
-	int j = 0;
 	while(string[i] != '\0') {
 
 		while(string[i] == ' ' || string[i] == ';') {

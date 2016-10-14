@@ -51,7 +51,7 @@ GenList DFA_getAllConnectedStates(DFA this) {
 	}
 
 	State currentState;
-	Transition t, rTransition;
+	Transition rTransition;
 	
 	// Breadth First Search
 	while (GenList_getSize(statesQueue)) {
@@ -112,7 +112,6 @@ char *DFA_getTransitionsTable(DFA this) {
 
 	char *string = (char *) malloc(sizeof(char) * 1000);
 
-	int width = 5;
 	GenList tr = this->transitions;
 
 	string = strcat(string, "\n|\t");

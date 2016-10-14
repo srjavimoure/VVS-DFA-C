@@ -7,7 +7,7 @@
 
 output = out
 files = Symbol.c State.c GenList.c Alphabet.c Transition.c DFA.c main.c
-dfa_file = example.dfa
+dfa_file = resources/example.dfa
 
 cunit:
 	gcc -Wall -Werror -c --coverage $(files)
@@ -19,6 +19,7 @@ cunit:
 	gcc -Wall -Werror --coverage -o DFA-test DFA.o DFA-test.c -lcunit
 
 test:
+	make cunit
 	./Alphabet-test
 	./DFA-test
 	./GenList-test
@@ -27,18 +28,17 @@ test:
 	./Transition-test
 	lcov --capture --directory . --output-file coverage.info
 	genhtml coverage.info --output-directory coverage	
-	
-default:
-	gcc -o $(output) $(files)
 
 run:
 	./$(output) -f $(dfa_file)
 
-all:
-	make
-	make test
-	make run
+compile:
+	gcc -o $(output) $(files)
 
 clean:
-	rm -rf *~ *.o core $(output) *.tst coverage coverage.info *.gcno *.gcda
+	rm -rf *~ *.o core $(output) *-test *.tst coverage coverage.info *.gcno *.gcda
 
+all:
+	make test
+	make compile
+	make run
