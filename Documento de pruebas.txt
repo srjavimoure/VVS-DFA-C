@@ -1,0 +1,462 @@
+ESTRUCTURA DEL DOCUMENTO:
+
+-Código identificativo
+-Unidad o módulo al que afecta
+-Función/método que afecta
+-Motivación (valores frontera, diagrama de estados, ...)
+-Entrada proporcionada
+-Salida esperada
+-Contexto (de ser necesario)
+
+
+*****************************************************************
+
+	MÓDULO SYMBOL
+	
+*****************************************************************
+	
+ID: SYM-NEW-01
+FUNCIÓN: newSymbol
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	secuencia -> NULL
+	size -> 0
+SALIDA ESPERADA: NULL
+	
+-----------------------------------------------------------------
+
+ID: SYMB-GET-01
+FUNCIÓN: getSymbol
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: SYMB-HASH-01
+FUNCIÓN: hashCode
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+SALIDA ESPERADA: 0
+
+-----------------------------------------------------------------
+
+ID: SYMB-EQ-01
+FUNCIÓN: equals
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: this es igual que other
+SALIDA ESPERADA: true
+	
+-----------------------------------------------------------------
+
+ID: SYMB-EQ-02
+FUNCIÓN: equals
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: this es distinto a other
+SALIDA ESPERADA: false
+	
+*****************************************************************
+
+	MÓDULO GENLIST
+	
+*****************************************************************
+
+ID: GLIST-NEW-01
+FUNCIÓN: newGenList
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: buffer < 0
+SALIDA ESPERADA: Lista vacía de tamaño mínimo predeterminado
+
+-----------------------------------------------------------------
+
+ID: GLIST-ADD-01
+FUNCIÓN: add
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista con num_elementos == buffer
+	elemento válido
+SALIDA ESPERADA: lista con num_elementos + 1 y aumentado en tamaño
+
+-----------------------------------------------------------------
+
+ID: GLIST-ADD-02
+FUNCIÓN: add
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista con num_elementos < buffer
+	elemento válido
+SALIDA ESPERADA: lista con num_elementos + 1 y elemento añadido
+
+-----------------------------------------------------------------
+
+ID: GLIST-ADD-03
+FUNCIÓN: add
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+	elemento válido
+SALIDA ESPERADA: la aplicación no crashea
+
+-----------------------------------------------------------------
+
+ID: GLIST-ADD-04
+FUNCIÓN: add
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	elemento -> NULL
+SALIDA ESPERADA: la misma lista que entró
+
+-----------------------------------------------------------------
+
+ID: GLIST-REM-01
+FUNCIÓN: remove
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	posición no válida (negativa o mayor que this->size)
+SALIDA ESPERADA: la aplicación no crashea
+
+-----------------------------------------------------------------
+
+ID: GLIST-REM-02
+FUNCIÓN: remove
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+	posición -> irrelevante
+SALIDA ESPERADA: la aplicación no crashea
+
+-----------------------------------------------------------------
+
+ID: GLIST-REM-03
+FUNCIÓN: remove
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	posición válida
+SALIDA ESPERADA: la lista sin el elemento correspondiente
+
+-----------------------------------------------------------------
+
+ID: GLIST-ELEM-01
+FUNCIÓN: getElement
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	posición no válida (negativa o mayor que this->size)
+SALIDA ESPERADA: la aplicación no crashea
+
+-----------------------------------------------------------------
+
+ID: GLIST-ELEM-02
+FUNCIÓN: getElement
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	posición válida
+SALIDA ESPERADA: el elemento en la posición indicada
+
+-----------------------------------------------------------------
+
+ID: GLIST-EXOB-01
+FUNCIÓN: getExistingObject
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+	elemento cualquiera
+	función cualquiera
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: GLIST-EXOB-02
+FUNCIÓN: getExistingObject
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	elemento -> NULL
+	función cualquiera
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: GLIST-EXOB-03
+FUNCIÓN: getExistingObject
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	elemento válido
+	función -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: GLIST-EXOB-04
+FUNCIÓN: getExistingObject
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	elemento válido, no se encuentra en la lista
+	función válida
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: GLIST-EXOB-05
+FUNCIÓN: getExistingObject
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this es lista válida
+	elemento válido, presente en la lista
+	función válida
+SALIDA ESPERADA: el elemento
+
+*****************************************************************
+
+	MÓDULO ALPHABET
+	
+*****************************************************************	
+
+Alphabet en C es una GenList renombrada. Su única implementación se basa
+exclusivamente en llamar a la función equivalente de GenList y devolver
+el resultado. Por ello no se encuentran pruebas que realizar a mayores
+de las ya realizadas en GenList.
+
+*****************************************************************
+
+	MÓDULO STATE
+	
+*****************************************************************
+	
+ID: ST-NEW-01
+FUNCIÓN: newState
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	secuencia -> NULL
+	size -> 0
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+	
+ID: ST-GET-01
+FUNCIÓN: getSymbol
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: ST-HASH-01
+FUNCIÓN: hashCode
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+SALIDA ESPERADA: 0
+
+-----------------------------------------------------------------
+
+ID: ST-EQ-01
+FUNCIÓN: equals
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: this es igual que other
+SALIDA ESPERADA: true
+	
+-----------------------------------------------------------------
+
+ID: ST-EQ-02
+FUNCIÓN: equals
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: this es distinto a other
+SALIDA ESPERADA: false
+	
+*****************************************************************
+
+	MÓDULO TRANSITION
+
+*****************************************************************
+	
+ID: TRANS-NEW-01
+FUNCIÓN: newTransition
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	symbol -> NULL
+	initialState es válido
+	endState es válido
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: TRANS-NEW-02
+FUNCIÓN: newTransition
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	symbol es válido
+	initialState -> NULL
+	endState es válido
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: TRANS-NEW-03
+FUNCIÓN: newTransition
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	symbol es válido
+	initialState es válido
+	endState -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: TRANS-HASH-01
+FUNCIÓN: hashCode
+TIPO: Valor de frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+SALIDA ESPERADA: 0
+
+-----------------------------------------------------------------
+
+ID: TRANS-EQ-01
+FUNCIÓN: equals
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: this es igual que other
+SALIDA ESPERADA: true
+	
+-----------------------------------------------------------------
+
+ID: TRANS-EQ-02
+FUNCIÓN: equals
+TIPO: Particiones equivalentes
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: this es distinto a other
+SALIDA ESPERADA: false
+	
+*****************************************************************
+
+	MÓDULO DFA
+	
+*****************************************************************
+
+ID: DFA-NEW-01
+FUNCIÓN: newDFA
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	states -> NULL
+	alph es válido
+	initialState es válido
+	finalStates es válido
+	transitions es válido
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: DFA-NEW-02
+FUNCIÓN: newDFA
+TIPO: Valores frontera en entrada
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	states es válido
+	alph -> NULL
+	initialState es válido
+	finalStates es válido
+	transitions es válido
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: DFA-CST-01
+FUNCIÓN: getConnectedStates
+TIPO: Valores frontera en entrada
+CONTEXTO: Mocks para GenList y Transition
+ENTRADA PROPORCIONADA:
+	DFA -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: DFA-CST-02
+FUNCIÓN: getConnectedStates
+TIPO: Particiones equivalentes
+CONTEXTO: Mocks para GenList y Transition
+ENTRADA PROPORCIONADA:
+	DFA sin estados conectados (sin transiciones)
+SALIDA ESPERADA: Lista vacía
+
+-----------------------------------------------------------------
+
+ID: DFA-CST-03
+FUNCIÓN: getConnectedStates
+TIPO: Particiones equivalentes
+CONTEXTO: Mocks para GenList y Transition
+ENTRADA PROPORCIONADA:
+	DFA con estados conectados
+SALIDA ESPERADA: Lista con los estados conectados
+
+-----------------------------------------------------------------
+
+ID: DFA-DFAC-01
+FUNCIÓN: getConnectedDFA
+TIPO: Valores frontera de entrada
+CONTEXTO: Mocks para GenList y Transition
+ENTRADA PROPORCIONADA:
+	DFA -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: DFA-DFAC-02
+FUNCIÓN: getConnectedDFA
+TIPO: Particiones equivalentes
+CONTEXTO: Mocks para GenList y Transition
+ENTRADA PROPORCIONADA:
+	DFA sin transiciones
+SALIDA ESPERADA: DFA con el estado inicial, sólo si también es estado final
+
+-----------------------------------------------------------------
+
+ID: DFA-DFAC-03
+FUNCIÓN: getConnectedDFA
+TIPO: Particiones equivalentes
+CONTEXTO: Mocks para GenList y Transition
+ENTRADA PROPORCIONADA:
+	DFA válido
+SALIDA ESPERADA: DFA simplificado
+
+-----------------------------------------------------------------
+

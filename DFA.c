@@ -124,27 +124,6 @@ char *DFA_getTransitionsTable(DFA this) {
 		string = strcat(string, "\t|\t");
 	}
 
-	/*// Initial state
-	string = strcat(string, State_toString(this->initialState));
-
-	// Final states
-	string = strcat(string, "}\n   Final");
-	string = strcat(string, GenList_toString(this->finalStates, State_toString));
-
-	// Alphabet
-	string = strcat(string, "\n   ");
-	string = strcat(string, Alphabet_toString(this->alph));
-
-	// Transitions
-	string = strcat(string, "\n   Transitions{");
-
-	for (i = 0; i < GenList_getSize(this->transitions); i++) {
-		string = strcat(string, Transition_toString(GenList_getElement(this->transitions, i)));
-		if (i != GenList_getSize(this->transitions)-1)	string = strcat(string, ", ");
-	}
-
-	string = strcat(string, "}\n}");*/
-
 	return string;
 
 }

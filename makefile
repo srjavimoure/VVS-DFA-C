@@ -14,13 +14,11 @@ cunit:
 	gcc -Wall -Werror --coverage -o Symbol-test Symbol.o Symbol-test.c -lcunit
 	gcc -Wall -Werror --coverage -o State-test State.o State-test.c -lcunit
 	gcc -Wall -Werror --coverage -o GenList-test GenList.o GenList-test.c -lcunit
-	gcc -Wall -Werror --coverage -o Alphabet-test Alphabet.o Alphabet-test.c -lcunit
 	gcc -Wall -Werror --coverage -o Transition-test Transition.o Transition-test.c -lcunit
 	gcc -Wall -Werror --coverage -o DFA-test DFA.o DFA-test.c -lcunit
 
 test:
 	make cunit
-	./Alphabet-test
 	./DFA-test
 	./GenList-test
 	./State-test
