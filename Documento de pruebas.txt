@@ -21,32 +21,22 @@ TIPO: Valor de frontera en entrada
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	secuencia -> NULL
-	size -> 0
+	size es válido
 SALIDA ESPERADA: NULL
 	
 -----------------------------------------------------------------
 
-ID: SYMB-GET-01
-FUNCIÓN: getSymbol
-TIPO: Valor de frontera en entrada
-CONTEXTO: n/a
-ENTRADA PROPORCIONADA:
-	this -> NULL
-SALIDA ESPERADA: NULL
-
------------------------------------------------------------------
-
-ID: SYMB-HASH-01
+ID: SYM-HASH-01
 FUNCIÓN: hashCode
-TIPO: Valor de frontera en entrada
+TIPO: Particiones equivalentes
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this -> NULL
-SALIDA ESPERADA: 0
+	Se llama dos veces con objetos iguales
+SALIDA ESPERADA: El mismo hashcode para ambos
 
 -----------------------------------------------------------------
 
-ID: SYMB-EQ-01
+ID: SYM-EQ-01
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -55,7 +45,7 @@ SALIDA ESPERADA: true
 	
 -----------------------------------------------------------------
 
-ID: SYMB-EQ-02
+ID: SYM-EQ-02
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
 CONTEXTO: n/a

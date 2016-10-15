@@ -1,46 +1,61 @@
-/*
-  FILE: Symbol-test.c
-  DESCRIPTION: Fichero de pruebas de unidad cUnit para Symbol.
-  AUTHOR: 
-  LICENSE:
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "Symbol.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 
 /*
-  Función de inicialización de las pruebas.
+  Función de inicialización de las pruebas para Symbol
  */
-int init_suite1(void)
+int init_suiteSymbol(void)
 {
   return 0;
 }
 
 /*
-  Función de finalización de las pruebas.
+  Función de finalización de las pruebas para Symbol
  */
-int clean_suite1(void)
+int clean_suiteSymbol(void)
 {
   return 0;
 }
 
-/*
-  Prueba de unidad.
- */
-void test_Symbol(void)
-{
-	CU_PASS("Symbol passed.\n");
+/**********************************************
+
+	PRUEBAS DE UNIDAD PARA EL MÓDULO SYMBOL
+
+**********************************************/
+
+/*	SYM-NEW-01	*/
+void test_newSymbolWithNullSequence(void) {
+
+	CU_ASSERT_PTR_NULL(Symbol_newSymbol(NULL, 0));
+
+}
+
+/*	SYM-HASH-01	*/
+void test_hashCodeWithEqualObjects(void) {
+
+	Symbol s1 = Symbol_newSymbol("a", 2);
+	Symbol s2 = Symbol_newSymbol("a", 2);
+
+	CU_ASSERT_EQUAL(Symbol_hashCode(s1), Symbol_hashCode(s2));
+}
+
+/*	SYM-EQ-01	*/
+void test_EqualObjects(void) {
+
+	Symbol s1 = Symbol_newSymbol("asdf", 10);
+	Symbol s2 = Symbol_newSymbol("asdf", 10); 
+
+	CU_ASSERT_TRUE(Symbol_equals(s1, s2));
+}
+
+/*	SYM-EQ-02	*/
+void test_InequalObjects(void) {
+
+	Symbol s1 = Symbol_newSymbol("asdf", 10);
+	Symbol s2 = Symbol_newSymbol("qwer", 10); 
+
+	CU_ASSERT_FALSE(Symbol_equals(s1, s2));
 }
 
 /*
@@ -56,8 +71,8 @@ int main()
    if (CUE_SUCCESS != CU_initialize_registry())
       return CU_get_error();
 
-   /* añadir un conjunto de pruebas al registro */
-   pSuite = CU_add_suite("Suite_Symbol", init_suite1, clean_suite1);
+   /* añadir una suite de pruebas al registro */
+   pSuite = CU_add_suite("Suite_Symbol", init_suiteSymbol, clean_suiteSymbol);
    if (NULL == pSuite) {
       CU_cleanup_registry();
       return CU_get_error();
@@ -65,11 +80,16 @@ int main()
 
    /* añadir las pruebas al conjunto */
    /* ATENCIÓN: EL ORDEN ES IMPORTANTE */
-   if (NULL == CU_add_test(pSuite, "Prueba de Symbol", test_Symbol))
+   
+   if (NULL == CU_add_test(pSuite, "SYB-NEW-01" , test_newSymbolWithNullSequence)
+   ||  NULL == CU_add_test(pSuite, "SYB-HASH-01", test_hashCodeWithEqualObjects)
+   ||  NULL == CU_add_test(pSuite, "SYB-EQ-01"  , test_EqualObjects)
+   ||  NULL == CU_add_test(pSuite, "SYB-EQ-02"  , test_InequalObjects))
    {
       CU_cleanup_registry();
       return CU_get_error();
    }
+   
 
    /* ejecutar las pruebas usando la interfaz CUnit Basic */
    CU_basic_set_mode(CU_BRM_VERBOSE);
