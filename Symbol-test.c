@@ -27,7 +27,7 @@ int clean_suiteSymbol(void)
 /*	SYM-NEW-01	*/
 void test_newSymbolWithNullSequence(void) {
 
-	CU_ASSERT_PTR_NULL_FATAL(Symbol_newSymbol(NULL, 0));
+	CU_ASSERT_PTR_NULL(Symbol_newSymbol(NULL, 0));
 
 }
 
@@ -37,7 +37,7 @@ void test_hashCodeWithEqualObjects(void) {
 	Symbol s1 = Symbol_newSymbol("a", 2);
 	Symbol s2 = Symbol_newSymbol("a", 2);
 
-	CU_ASSERT_EQUAL_FATAL(Symbol_hashCode(s1), Symbol_hashCode(s2));
+	CU_ASSERT_EQUAL(Symbol_hashCode(s1), Symbol_hashCode(s2));
 }
 
 /*	SYM-EQ-01	*/
@@ -46,7 +46,7 @@ void test_EqualObjects(void) {
 	Symbol s1 = Symbol_newSymbol("asdf", 10);
 	Symbol s2 = Symbol_newSymbol("asdf", 10); 
 
-	CU_ASSERT_TRUE_FATAL(Symbol_equals(s1, s2));
+	CU_ASSERT_TRUE(Symbol_equals(s1, s2));
 }
 
 /*	SYM-EQ-02	*/
@@ -55,7 +55,7 @@ void test_InequalObjects(void) {
 	Symbol s1 = Symbol_newSymbol("asdf", 10);
 	Symbol s2 = Symbol_newSymbol("qwer", 10); 
 
-	CU_ASSERT_FALSE_FATAL(Symbol_equals(s1, s2));
+	CU_ASSERT_FALSE(Symbol_equals(s1, s2));
 }
 
 /*
@@ -95,5 +95,5 @@ int main()
    CU_basic_set_mode(CU_BRM_VERBOSE);
    CU_basic_run_tests();
    CU_cleanup_registry();
-   return CU_get_error();
+   return CU_get_number_of_failures() != 0;
 }

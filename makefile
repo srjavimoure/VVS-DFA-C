@@ -19,11 +19,7 @@ cunit:
 
 test:
 	make cunit
-	./DFA-test
-	./GenList-test
-	./State-test
 	./Symbol-test
-	./Transition-test
 	lcov --capture --directory . --output-file coverage.info
 	genhtml coverage.info --output-directory coverage	
 
