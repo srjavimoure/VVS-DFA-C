@@ -65,6 +65,7 @@ void test_InequalObjects(void) {
  */
 int main()
 {
+
    CU_pSuite pSuite = NULL;
 
    /* inicializar el registro de pruebas CUnit */
@@ -78,26 +79,25 @@ int main()
       return CU_get_error();
    }
 
-   /* añadir las pruebas al conjunto */
+   /* añadir las pruebas de la suite Symbol */
    /* ATENCIÓN: EL ORDEN ES IMPORTANTE */
    
-   if (NULL == CU_add_test(pSuite, "SYB-NEW-01" , test_newSymbolWithNullSequence)
-   ||  NULL == CU_add_test(pSuite, "SYB-HASH-01", test_hashCodeWithEqualObjects)
-   ||  NULL == CU_add_test(pSuite, "SYB-EQ-01"  , test_EqualObjects)
-   ||  NULL == CU_add_test(pSuite, "SYB-EQ-02"  , test_InequalObjects))
+   if (NULL == CU_add_test(pSuite, "SYM-NEW-01" , test_newSymbolWithNullSequence)
+   ||  NULL == CU_add_test(pSuite, "SYM-HASH-01", test_hashCodeWithEqualObjects)
+   ||  NULL == CU_add_test(pSuite, "SYM-EQ-01"  , test_EqualObjects)
+   ||  NULL == CU_add_test(pSuite, "SYM-EQ-02"  , test_InequalObjects))
    {
       CU_cleanup_registry();
       return CU_get_error();
    }
-   
 
    /* ejecutar las pruebas usando la interfaz CUnit Basic */
    CU_basic_set_mode(CU_BRM_VERBOSE);
    CU_basic_run_tests();
    
    if (CU_get_number_of_failures() > 0) {
-   		CU_cleanup_registry();
-   		return 1;
+   	  CU_cleanup_registry();
+   	  return 1;
    }
    
    CU_cleanup_registry();

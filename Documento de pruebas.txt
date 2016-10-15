@@ -251,24 +251,14 @@ ENTRADA PROPORCIONADA:
 SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
-	
-ID: ST-GET-01
-FUNCIÓN: getSymbol
-TIPO: Valor de frontera en entrada
-CONTEXTO: n/a
-ENTRADA PROPORCIONADA:
-	this -> NULL
-SALIDA ESPERADA: NULL
-
------------------------------------------------------------------
 
 ID: ST-HASH-01
 FUNCIÓN: hashCode
-TIPO: Valor de frontera en entrada
+TIPO: Particiones equivalentes
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this -> NULL
-SALIDA ESPERADA: 0
+	Dos objetos iguales
+SALIDA ESPERADA: El mismo hashCode
 
 -----------------------------------------------------------------
 

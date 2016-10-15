@@ -1,46 +1,63 @@
-/*
-  FILE: State-test.c
-  DESCRIPTION: Fichero de pruebas de unidad cUnit para State.
-  AUTHOR: 
-  LICENSE:
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "State.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 
 /*
-  Función de inicialización de las pruebas.
+  Función de inicialización de las pruebas de State.
  */
-int init_suite1(void)
+int init_suiteState(void)
 {
   return 0;
 }
 
 /*
-  Función de finalización de las pruebas.
+  Función de finalización de las pruebas de State.
  */
-int clean_suite1(void)
+int clean_suiteState(void)
 {
   return 0;
 }
 
-/*
-  Prueba de unidad.
- */
-void test_State(void)
+/**********************************************
+
+	PRUEBAS DE UNIDAD PARA EL MÓDULO STATE
+
+**********************************************/
+
+/*	SYM-NEW-01	*/
+void test_newStateWithoutName(void)
 {
-	CU_PASS("State passed.\n");
+	CU_ASSERT_PTR_NULL(State_newState(NULL, 0));
+}
+
+/*	ST-HASH-01	*/
+void test_hashCodeEqualStates(void) {
+
+	State st1 = State_newState("q1", 3);
+	State st2 = State_newState("q1", 3);
+	
+	CU_ASSERT_EQUAL(State_hashCode(st1), State_hashCode(st2));
+
+}
+
+/*	ST-EQ-01	*/
+void test_equalsEqualStates(void) {
+
+	State st1 = State_newState("q1", 3);
+	State st2 = State_newState("q1", 3);
+	
+	CU_ASSERT_TRUE(State_equals(st1, st2));
+
+}
+
+/*	ST-EQ-02	*/
+void test_equalsInequalStates(void) {
+
+	State st1 = State_newState("q1", 3);
+	State st2 = State_newState("q5", 3);
+	
+	CU_ASSERT_FALSE(State_equals(st1, st2));
+
 }
 
 /*
@@ -50,14 +67,15 @@ void test_State(void)
  */
 int main()
 {
+
    CU_pSuite pSuite = NULL;
 
    /* inicializar el registro de pruebas CUnit */
    if (CUE_SUCCESS != CU_initialize_registry())
       return CU_get_error();
 
-   /* añadir un conjunto de pruebas al registro */
-   pSuite = CU_add_suite("Suite_State", init_suite1, clean_suite1);
+   /* añadir una suite de pruebas al registro */
+   pSuite = CU_add_suite("Suite_State", init_suiteState, clean_suiteState);
    if (NULL == pSuite) {
       CU_cleanup_registry();
       return CU_get_error();
@@ -65,7 +83,10 @@ int main()
 
    /* añadir las pruebas al conjunto */
    /* ATENCIÓN: EL ORDEN ES IMPORTANTE */
-   if (NULL == CU_add_test(pSuite, "Prueba de State", test_State))
+   if (NULL == CU_add_test(pSuite, "ST-NEW-01", test_newStateWithoutName)
+   ||  NULL == CU_add_test(pSuite, "ST-HASH-01", test_hashCodeEqualStates)
+   ||  NULL == CU_add_test(pSuite, "ST-EQ-01", test_equalsEqualStates)
+   ||  NULL == CU_add_test(pSuite, "ST-EQ-02", test_equalsInequalStates))
    {
       CU_cleanup_registry();
       return CU_get_error();
@@ -74,6 +95,12 @@ int main()
    /* ejecutar las pruebas usando la interfaz CUnit Basic */
    CU_basic_set_mode(CU_BRM_VERBOSE);
    CU_basic_run_tests();
+   
+   if (CU_get_number_of_failures() > 0) {
+   	  CU_cleanup_registry();
+   	  return 1;
+   }
+   
    CU_cleanup_registry();
-   return CU_get_error();
+   return 0;
 }
