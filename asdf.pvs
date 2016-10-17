@@ -1,0 +1,12 @@
+asdf  % [ parameters ]
+		: THEORY
+
+  BEGIN
+
+  % ASSUMING
+   % assuming declarations
+  % ENDASSUMING
+
+  
+
+  END asdf

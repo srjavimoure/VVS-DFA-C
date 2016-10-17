@@ -24,14 +24,14 @@ int clean_suiteSymbol(void)
 
 **********************************************/
 
-/*	SYM-NEW-01	*/
+/*	C-SYM-NEW-01	*/
 void test_newSymbolWithNullSequence(void) {
 
 	CU_ASSERT_PTR_NULL(Symbol_newSymbol(NULL, 0));
 
 }
 
-/*	SYM-HASH-01	*/
+/*	C-SYM-HASH-01	*/
 void test_hashCodeWithEqualObjects(void) {
 
 	Symbol s1 = Symbol_newSymbol("a", 2);
@@ -40,7 +40,7 @@ void test_hashCodeWithEqualObjects(void) {
 	CU_ASSERT_EQUAL(Symbol_hashCode(s1), Symbol_hashCode(s2));
 }
 
-/*	SYM-EQ-01	*/
+/*	C-SYM-EQ-01	*/
 void test_EqualObjects(void) {
 
 	Symbol s1 = Symbol_newSymbol("asdf", 10);
@@ -49,7 +49,7 @@ void test_EqualObjects(void) {
 	CU_ASSERT_TRUE(Symbol_equals(s1, s2));
 }
 
-/*	SYM-EQ-02	*/
+/*	C-SYM-EQ-02	*/
 void test_InequalObjects(void) {
 
 	Symbol s1 = Symbol_newSymbol("asdf", 10);
@@ -82,10 +82,10 @@ int main()
    /* añadir las pruebas de la suite Symbol */
    /* ATENCIÓN: EL ORDEN ES IMPORTANTE */
    
-   if (NULL == CU_add_test(pSuite, "SYM-NEW-01" , test_newSymbolWithNullSequence)
-   ||  NULL == CU_add_test(pSuite, "SYM-HASH-01", test_hashCodeWithEqualObjects)
-   ||  NULL == CU_add_test(pSuite, "SYM-EQ-01"  , test_EqualObjects)
-   ||  NULL == CU_add_test(pSuite, "SYM-EQ-02"  , test_InequalObjects))
+   if (NULL == CU_add_test(pSuite, "C-SYM-NEW-01" , test_newSymbolWithNullSequence)
+   ||  NULL == CU_add_test(pSuite, "C-SYM-HASH-01", test_hashCodeWithEqualObjects)
+   ||  NULL == CU_add_test(pSuite, "C-SYM-EQ-01"  , test_EqualObjects)
+   ||  NULL == CU_add_test(pSuite, "C-SYM-EQ-02"  , test_InequalObjects))
    {
       CU_cleanup_registry();
       return CU_get_error();
@@ -95,10 +95,10 @@ int main()
    CU_basic_set_mode(CU_BRM_VERBOSE);
    CU_basic_run_tests();
    
-   if (CU_get_number_of_failures() > 0) {
+   /*if (CU_get_number_of_failures() > 0) {
    	  CU_cleanup_registry();
    	  return 1;
-   }
+   }*/
    
    CU_cleanup_registry();
    return 0;

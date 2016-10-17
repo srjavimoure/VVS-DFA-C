@@ -15,7 +15,7 @@ ESTRUCTURA DEL DOCUMENTO:
 	
 *****************************************************************
 	
-ID: SYM-NEW-01
+ID: C-SYM-NEW-01
 FUNCIÓN: newSymbol
 TIPO: Valor de frontera en entrada
 CONTEXTO: n/a
@@ -26,7 +26,7 @@ SALIDA ESPERADA: NULL
 	
 -----------------------------------------------------------------
 
-ID: SYM-HASH-01
+ID: C-SYM-HASH-01
 FUNCIÓN: hashCode
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -36,7 +36,7 @@ SALIDA ESPERADA: El mismo hashcode para ambos
 
 -----------------------------------------------------------------
 
-ID: SYM-EQ-01
+ID: C-SYM-EQ-01
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -45,7 +45,7 @@ SALIDA ESPERADA: true
 	
 -----------------------------------------------------------------
 
-ID: SYM-EQ-02
+ID: C-SYM-EQ-02
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -58,7 +58,7 @@ SALIDA ESPERADA: false
 	
 *****************************************************************
 
-ID: GLIST-NEW-01
+ID: C-GLIST-NEW-01
 FUNCIÓN: newGenList
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -67,7 +67,7 @@ SALIDA ESPERADA: Lista vacía de tamaño mínimo predeterminado
 
 -----------------------------------------------------------------
 
-ID: GLIST-ADD-01
+ID: C-GLIST-ADD-01
 FUNCIÓN: add
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -78,7 +78,7 @@ SALIDA ESPERADA: lista con num_elementos + 1 y aumentado en tamaño
 
 -----------------------------------------------------------------
 
-ID: GLIST-ADD-02
+ID: C-GLIST-ADD-02
 FUNCIÓN: add
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -89,7 +89,7 @@ SALIDA ESPERADA: lista con num_elementos + 1 y elemento añadido
 
 -----------------------------------------------------------------
 
-ID: GLIST-ADD-03
+ID: C-GLIST-ADD-03
 FUNCIÓN: add
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -100,7 +100,7 @@ SALIDA ESPERADA: la aplicación no crashea
 
 -----------------------------------------------------------------
 
-ID: GLIST-ADD-04
+ID: C-GLIST-ADD-04
 FUNCIÓN: add
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -111,7 +111,7 @@ SALIDA ESPERADA: la misma lista que entró
 
 -----------------------------------------------------------------
 
-ID: GLIST-REM-01
+ID: C-GLIST-REM-01
 FUNCIÓN: remove
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -122,7 +122,7 @@ SALIDA ESPERADA: la aplicación no crashea
 
 -----------------------------------------------------------------
 
-ID: GLIST-REM-02
+ID: C-GLIST-REM-02
 FUNCIÓN: remove
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -133,7 +133,7 @@ SALIDA ESPERADA: la aplicación no crashea
 
 -----------------------------------------------------------------
 
-ID: GLIST-REM-03
+ID: C-GLIST-REM-03
 FUNCIÓN: remove
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -144,7 +144,7 @@ SALIDA ESPERADA: la lista sin el elemento correspondiente
 
 -----------------------------------------------------------------
 
-ID: GLIST-ELEM-01
+ID: C-GLIST-ELEM-01
 FUNCIÓN: getElement
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -155,7 +155,7 @@ SALIDA ESPERADA: la aplicación no crashea
 
 -----------------------------------------------------------------
 
-ID: GLIST-ELEM-02
+ID: C-GLIST-ELEM-02
 FUNCIÓN: getElement
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -166,7 +166,7 @@ SALIDA ESPERADA: el elemento en la posición indicada
 
 -----------------------------------------------------------------
 
-ID: GLIST-EXOB-01
+ID: C-GLIST-EXOB-01
 FUNCIÓN: getExistingObject
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -178,7 +178,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: GLIST-EXOB-02
+ID: C-GLIST-EXOB-02
 FUNCIÓN: getExistingObject
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -190,7 +190,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: GLIST-EXOB-03
+ID: C-GLIST-EXOB-03
 FUNCIÓN: getExistingObject
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -202,7 +202,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: GLIST-EXOB-04
+ID: C-GLIST-EXOB-04
 FUNCIÓN: getExistingObject
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -214,7 +214,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: GLIST-EXOB-05
+ID: C-GLIST-EXOB-05
 FUNCIÓN: getExistingObject
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -241,7 +241,7 @@ de las ya realizadas en GenList.
 	
 *****************************************************************
 	
-ID: ST-NEW-01
+ID: C-ST-NEW-01
 FUNCIÓN: newState
 TIPO: Valor de frontera en entrada
 CONTEXTO: n/a
@@ -252,7 +252,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: ST-HASH-01
+ID: C-ST-HASH-01
 FUNCIÓN: hashCode
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -262,7 +262,7 @@ SALIDA ESPERADA: El mismo hashCode
 
 -----------------------------------------------------------------
 
-ID: ST-EQ-01
+ID: C-ST-EQ-01
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -271,7 +271,7 @@ SALIDA ESPERADA: true
 	
 -----------------------------------------------------------------
 
-ID: ST-EQ-02
+ID: C-ST-EQ-02
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -284,7 +284,7 @@ SALIDA ESPERADA: false
 
 *****************************************************************
 	
-ID: TRANS-NEW-01
+ID: C-TRANS-NEW-01
 FUNCIÓN: newTransition
 TIPO: Valor de frontera en entrada
 CONTEXTO: n/a
@@ -296,7 +296,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: TRANS-NEW-02
+ID: C-TRANS-NEW-02
 FUNCIÓN: newTransition
 TIPO: Valor de frontera en entrada
 CONTEXTO: n/a
@@ -308,7 +308,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: TRANS-NEW-03
+ID: C-TRANS-NEW-03
 FUNCIÓN: newTransition
 TIPO: Valor de frontera en entrada
 CONTEXTO: n/a
@@ -320,7 +320,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: TRANS-HASH-01
+ID: C-TRANS-HASH-01
 FUNCIÓN: hashCode
 TIPO: Valor de frontera en entrada
 CONTEXTO: n/a
@@ -330,7 +330,7 @@ SALIDA ESPERADA: 0
 
 -----------------------------------------------------------------
 
-ID: TRANS-EQ-01
+ID: C-TRANS-EQ-01
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -339,7 +339,7 @@ SALIDA ESPERADA: true
 	
 -----------------------------------------------------------------
 
-ID: TRANS-EQ-02
+ID: C-TRANS-EQ-02
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
 CONTEXTO: n/a
@@ -352,7 +352,7 @@ SALIDA ESPERADA: false
 	
 *****************************************************************
 
-ID: DFA-NEW-01
+ID: C-DFA-NEW-01
 FUNCIÓN: newDFA
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -366,7 +366,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: DFA-NEW-02
+ID: C-DFA-NEW-02
 FUNCIÓN: newDFA
 TIPO: Valores frontera en entrada
 CONTEXTO: n/a
@@ -380,7 +380,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: DFA-CST-01
+ID: C-DFA-CST-01
 FUNCIÓN: getConnectedStates
 TIPO: Valores frontera en entrada
 CONTEXTO: Mocks para GenList y Transition
@@ -390,7 +390,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: DFA-CST-02
+ID: C-DFA-CST-02
 FUNCIÓN: getConnectedStates
 TIPO: Particiones equivalentes
 CONTEXTO: Mocks para GenList y Transition
@@ -400,7 +400,7 @@ SALIDA ESPERADA: Lista vacía
 
 -----------------------------------------------------------------
 
-ID: DFA-CST-03
+ID: C-DFA-CST-03
 FUNCIÓN: getConnectedStates
 TIPO: Particiones equivalentes
 CONTEXTO: Mocks para GenList y Transition
@@ -410,7 +410,7 @@ SALIDA ESPERADA: Lista con los estados conectados
 
 -----------------------------------------------------------------
 
-ID: DFA-DFAC-01
+ID: C-DFA-DFAC-01
 FUNCIÓN: getConnectedDFA
 TIPO: Valores frontera de entrada
 CONTEXTO: Mocks para GenList y Transition
@@ -420,7 +420,7 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: DFA-DFAC-02
+ID: C-DFA-DFAC-02
 FUNCIÓN: getConnectedDFA
 TIPO: Particiones equivalentes
 CONTEXTO: Mocks para GenList y Transition
@@ -430,7 +430,7 @@ SALIDA ESPERADA: DFA con el estado inicial, sólo si también es estado final
 
 -----------------------------------------------------------------
 
-ID: DFA-DFAC-03
+ID: C-DFA-DFAC-03
 FUNCIÓN: getConnectedDFA
 TIPO: Particiones equivalentes
 CONTEXTO: Mocks para GenList y Transition

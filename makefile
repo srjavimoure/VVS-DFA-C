@@ -25,7 +25,7 @@ test:
 	./Transition-test
 	./DFA-test
 	lcov --capture --directory . --output-file coverage.info
-	genhtml coverage.info --output-directory coverage	
+	genhtml coverage.info --output-directory ./doc/coverage
 
 run:
 	./$(output) -f $(dfa_file)
@@ -34,7 +34,7 @@ compile:
 	gcc -o $(output) $(files)
 
 clean:
-	rm -rf *~ *.o core $(output) *-test *.tst coverage coverage.info *.gcno *.gcda
+	rm -rf *~ *.o core $(output) *-test *.tst doc/coverage coverage.info *.gcno *.gcda
 
 all:
 	make test
