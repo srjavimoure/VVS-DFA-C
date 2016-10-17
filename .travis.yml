@@ -8,4 +8,4 @@ addons:
     - libcunit1-dev
     - lcov
 
-script: make cunit && make test
+script: make cunit && make tests
