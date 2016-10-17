@@ -6,18 +6,18 @@
 # Uxia Ponte Villaverde (uxia.ponte.villaverde)
 
 output = out
-files = Symbol.c State.c GenList.c Alphabet.c Transition.c DFA.c main.c
+files = source/Symbol.c source/State.c source/GenList.c source/Alphabet.c source/Transition.c source/DFA.c source/main.c
 dfa_file = resources/example.dfa
 
 cunit:
 	gcc -Wall -Werror -c --coverage $(files)
-	gcc -Wall -Werror --coverage -o Symbol-test Symbol.o Symbol-test.c -lcunit
-	gcc -Wall -Werror --coverage -o State-test State.o State-test.c -lcunit
-	gcc -Wall -Werror --coverage -o GenList-test GenList.o GenList-test.c -lcunit
-	gcc -Wall -Werror --coverage -o Transition-test Transition.o Transition-test.c -lcunit
-	gcc -Wall -Werror --coverage -o DFA-test DFA.o DFA-test.c -lcunit
+	gcc -Wall -Werror --coverage -o Symbol-test Symbol.o test/Symbol-test.c -lcunit
+	gcc -Wall -Werror --coverage -o State-test State.o test/State-test.c -lcunit
+	gcc -Wall -Werror --coverage -o GenList-test GenList.o test/GenList-test.c -lcunit
+	gcc -Wall -Werror --coverage -o Transition-test Transition.o test/Transition-test.c -lcunit
+	gcc -Wall -Werror --coverage -o DFA-test DFA.o test/DFA-test.c -lcunit
 
-test:
+tests:
 	make cunit
 	./Symbol-test
 	./State-test

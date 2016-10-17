@@ -15,7 +15,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "GenList.h"
+#include "../include/GenList.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 

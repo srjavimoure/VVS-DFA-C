@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "GenList.h"
+#include "../include/GenList.h"
 
 #ifndef DEFBUFFER
 	#define DEFBUFFER 5

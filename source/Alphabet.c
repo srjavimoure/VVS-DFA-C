@@ -1,8 +1,8 @@
 #include <string.h> // Defines NULL
 #include <stdlib.h>
-#include "Alphabet.h"
-#include "GenList.h"
-#include "Symbol.h"
+#include "../include/Alphabet.h"
+#include "../include/GenList.h"
+#include "../include/Symbol.h"
 
 #ifndef ALBUFFER
 	#define ALBUFFER 5

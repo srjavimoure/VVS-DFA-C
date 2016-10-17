@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Symbol.h"
-#include "State.h"
-#include "Alphabet.h"
-#include "Transition.h"
-#include "GenList.h"
-#include "DFA.h"
+#include "../include/Symbol.h"
+#include "../include/State.h"
+#include "../include/Alphabet.h"
+#include "../include/Transition.h"
+#include "../include/GenList.h"
+#include "../include/DFA.h"
 
 DFA DFAasString(char *string) {
 

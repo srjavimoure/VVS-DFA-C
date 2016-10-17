@@ -15,9 +15,9 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Transition.h"
-#include "mocks/MockSymbol.c"
-#include "mocks/MockState.c"
+#include "../include/Transition.h"
+#include "../mocks/MockSymbol.c"
+#include "../mocks/MockState.c"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 

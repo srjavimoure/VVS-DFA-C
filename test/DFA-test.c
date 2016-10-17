@@ -15,12 +15,12 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "DFA.h"
-#include "mocks/MockTransition.c"
-#include "mocks/MockAlphabet.c"
-#include "mocks/MockGenList.c"
-#include "mocks/MockSymbol.c"
-#include "mocks/MockState.c"
+#include "../include/DFA.h"
+#include "../mocks/MockTransition.c"
+#include "../mocks/MockAlphabet.c"
+#include "../mocks/MockGenList.c"
+#include "../mocks/MockSymbol.c"
+#include "../mocks/MockState.c"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 

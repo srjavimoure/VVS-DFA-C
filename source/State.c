@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "State.h"
+#include "../include/State.h"
 
 struct ST_State {
 	int32_t size;	// Explicitly defined size for memory aligment purposes

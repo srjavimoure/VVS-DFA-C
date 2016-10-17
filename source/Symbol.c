@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "Symbol.h"
+#include "../include/Symbol.h"
 
 struct ST_Symbol {
 	int32_t size;

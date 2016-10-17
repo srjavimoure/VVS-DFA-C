@@ -5,11 +5,11 @@
  */
 #include <stdlib.h>
 #include <string.h>
-#include "Transition.h"
-#include "Alphabet.h"
-#include "GenList.h"
-#include "Symbol.h"
-#include "State.h"
+#include "../include/Transition.h"
+#include "../include/Alphabet.h"
+#include "../include/GenList.h"
+#include "../include/Symbol.h"
+#include "../include/State.h"
 
 struct ST_DFA {
 	GenList states;
