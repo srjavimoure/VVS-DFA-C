@@ -3,10 +3,10 @@ language: c
 sudo: false
 
 addons: 
-	apt: 
-		packages: 
-			- libcunit1-dev
-			- lcov
-			- cppcheck
+   apt: 
+      packages: 
+         - libcunit1-dev
+         - lcov
+         - cppcheck
 
 script: make tests
