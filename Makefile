@@ -18,13 +18,12 @@ cunit:
 	#gcc -Wall --coverage -o DFA-test DFA.o test/DFA-test.c -lcunit
 	rm -rf *~
 
-cppcheck:
+doc:
 	cppcheck --error-exitcode=0 $(files) -I include/ --xml 2> doc/cppcheck.xml
 	cppcheck-htmlreport --file=doc/cppcheck.xml --title=VVS-DFA-C --report-dir=doc/cppcheck
 	rm doc/cppcheck.xml
 
 tests:
-	make cppcheck
 	make cunit
 	./Symbol-test
 	./State-test
