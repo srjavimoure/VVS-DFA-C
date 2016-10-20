@@ -16,7 +16,8 @@ cunit:
 	gcc -Wall --coverage -o GenList-test GenList.o test/GenList-test.c -lcunit
 	#gcc -Wall --coverage -o Transition-test Transition.o test/Transition-test.c -lcunit
 	#gcc -Wall --coverage -o DFA-test DFA.o test/DFA-test.c -lcunit
-	rm -rf *~ *.o
+	rm -rf *~
+	rm $(output)
 
 tests:
 	make cunit
