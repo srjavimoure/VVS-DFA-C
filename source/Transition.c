@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include "../include/GenList.h"
 #include "../include/State.h"
 #include "../include/Symbol.h"
 #include "../include/Transition.h"
