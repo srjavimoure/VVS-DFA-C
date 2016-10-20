@@ -7,5 +7,6 @@ addons:
     packages:
     - libcunit1-dev
     - lcov
+	- cppcheck
 
-script: make cunit && make tests
+script: make tests
