@@ -17,9 +17,14 @@ cunit:
 	#gcc -Wall --coverage -o Transition-test Transition.o test/Transition-test.c -lcunit
 	#gcc -Wall --coverage -o DFA-test DFA.o test/DFA-test.c -lcunit
 	rm -rf *~
-	rm $(output)
+
+cppcheck:
+	cppcheck --error-exitcode=0 $(files) -I include/ --xml 2> doc/cppcheck.xml
+	cppcheck-htmlreport --file=doc/cppcheck.xml --title=VVS-DFA-C --report-dir=doc/cppcheck
+	rm doc/cppcheck.xml
 
 tests:
+	make cppcheck
 	make cunit
 	./Symbol-test
 	./State-test
@@ -28,7 +33,7 @@ tests:
 	#./DFA-test
 	lcov --capture --directory . --output-file coverage.info
 	genhtml coverage.info --output-directory ./doc/coverage
-	rm -rf *~ *.gcda *.gcno coverage.info
+	rm -rf *~ *.o *.gcda *.gcno coverage.info
 
 run:
 	./$(output) -f $(dfa_file)
@@ -36,9 +41,11 @@ run:
 compile:
 	gcc -o $(output) $(files)
 
-clean:
-	rm -rf *~ *.o core $(output) *-test *.tst doc/coverage coverage.info *.gcno *.gcda
+clean_reports:
+	rm -rf doc/coverage doc/cppcheck
 
+clean:
+	rm -rf *~ core $(output) *-test *.tst doc/cppcheck.xml
 all:
 	make test
 	make compile
