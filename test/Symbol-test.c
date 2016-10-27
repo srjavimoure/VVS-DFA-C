@@ -1,6 +1,8 @@
 #include "../include/Symbol.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
+// Generación de datos aleatoria
+#include "quickcheck4c.h"
 
 /*
   Función de inicialización de las pruebas para Symbol
@@ -59,6 +61,35 @@ void test_InequalObjects(void) {
 }
 
 /*
+	Generadores de datos propias
+
+*/
+
+QCC_GenValue* genPosInt() {
+
+	return QCC_genInt(0, 50);
+}
+
+/*
+	Pruebas que usan generadores (QUICKCHECK4C)
+*/
+
+/*	C-SYM-QCC-02	*/
+QCC_TestStatus test_AnyStringSymbol(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
+
+	char *sec = *QCC_getValue(vals, 0, char**);
+	int size = (int) *QCC_getValue(vals, 1, int*);
+
+	Symbol s = Symbol_newSymbol(sec, size);
+
+	/*La secuencia del símbolo es los size primeros caracteres de sec*/
+	return (strlen(Symbol_getSymbol(s)) == size)
+		&& strncmp(Symbol_getSymbol(s), sec, size);
+
+
+}
+
+/*
   Función principal para la ejecución de las pruebas.
   Devuelve CUE_SUCCESS si pasan correctamente,
   o un error CUnit si alguna falla.
@@ -66,40 +97,48 @@ void test_InequalObjects(void) {
 int main()
 {
 
-   CU_pSuite pSuite = NULL;
+	CU_pSuite pSuite = NULL;
 
-   /* inicializar el registro de pruebas CUnit */
-   if (CUE_SUCCESS != CU_initialize_registry())
-      return CU_get_error();
+	/* inicializar el registro de pruebas CUnit */
+	if (CUE_SUCCESS != CU_initialize_registry())
+		return CU_get_error();
 
-   /* añadir una suite de pruebas al registro */
-   pSuite = CU_add_suite("Suite_Symbol", init_suiteSymbol, clean_suiteSymbol);
-   if (NULL == pSuite) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+	/* añadir una suite de pruebas al registro */
+	pSuite = CU_add_suite("Suite_Symbol", init_suiteSymbol, clean_suiteSymbol);
+	if (NULL == pSuite) {
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 
-   /* añadir las pruebas de la suite Symbol */
-   /* ATENCIÓN: EL ORDEN ES IMPORTANTE */
+	/* añadir las pruebas de la suite Symbol */
+	/* ATENCIÓN: EL ORDEN ES IMPORTANTE */
    
-   if (NULL == CU_add_test(pSuite, "C-SYM-NEW-01" , test_newSymbolWithNullSequence)
-   ||  NULL == CU_add_test(pSuite, "C-SYM-HASH-01", test_hashCodeWithEqualObjects)
-   ||  NULL == CU_add_test(pSuite, "C-SYM-EQ-01"  , test_EqualObjects)
-   ||  NULL == CU_add_test(pSuite, "C-SYM-EQ-02"  , test_InequalObjects))
-   {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+	if (NULL == CU_add_test(pSuite, "C-SYM-NEW-01" , test_newSymbolWithNullSequence)
+	||  NULL == CU_add_test(pSuite, "C-SYM-HASH-01", test_hashCodeWithEqualObjects)
+	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-01"  , test_EqualObjects)
+	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-02"  , test_InequalObjects))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 
-   /* ejecutar las pruebas usando la interfaz CUnit Basic */
-   CU_basic_set_mode(CU_BRM_VERBOSE);
-   CU_basic_run_tests();
+	/* ejecutar las pruebas usando la interfaz CUnit Basic */
+	CU_basic_set_mode(CU_BRM_VERBOSE);
+	CU_basic_run_tests();
    
-   /*if (CU_get_number_of_failures() > 0) {
-   	  CU_cleanup_registry();
-   	  return 1;
-   }*/
-   
-   CU_cleanup_registry();
-   return 0;
+	/*if (CU_get_number_of_failures() > 0) {
+		CU_cleanup_registry();
+		return 1;
+	}*/
+
+	CU_cleanup_registry();
+
+	QCC_init(0);
+
+	printf("QuickCheck4C testing:\n\n");
+
+	printf("Generating strings for symbols:\n");
+	QCC_testForAll(1, 1, test_AnyStringSymbol, 2, QCC_genString, genPosInt);
+
+	return 0;
 }

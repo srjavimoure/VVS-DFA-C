@@ -23,7 +23,7 @@ ENTRADA PROPORCIONADA:
 	secuencia -> NULL
 	size es válido
 SALIDA ESPERADA: NULL
-	
+
 -----------------------------------------------------------------
 
 ID: C-SYM-HASH-01
@@ -52,6 +52,19 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA: this es distinto a other
 SALIDA ESPERADA: false
 	
+-----------------------------------------------------------------
+
+ID: C-SYM-QCC-02
+FUNCIÓN: newSymbol
+TIPO: Generación de datos aleatoria
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	secuencia -> generada por quickcheck
+	size -> generada por quickcheck
+SALIDA ESPERADA:
+	El símbolo generado, de tamaño size (si es menor que la
+	secuencia real,	la cadena se trunca)
+
 *****************************************************************
 
 	MÓDULO GENLIST
