@@ -10,6 +10,8 @@ files = source/Symbol.c source/State.c source/GenList.c source/Alphabet.c source
 qcc = test/quickcheck4c.c
 dfa_file = resources/example.dfa
 
+all: tests compile run
+
 cunit:
 	gcc -Wall -c --coverage $(files) $(qcc)
 	gcc -Wall --coverage -o Symbol-test Symbol.o quickcheck4c.o test/Symbol-test.c -lcunit
@@ -44,8 +46,5 @@ clean_reports:
 	rm -rf doc/coverage doc/cppcheck
 
 clean:
-	rm -rf *~ core $(output) *-test *.tst doc/cppcheck.xml *.gcda *.gcno *.o
-all:
-	make test
-	make compile
-	make run
+	rm -rf *~ core $(output) *-test *.tst doc/cppcheck.xml doc/coverage *.gcda *.gcno *.o
+
