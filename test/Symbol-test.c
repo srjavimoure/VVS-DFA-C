@@ -66,8 +66,7 @@ void test_InequalObjects(void) {
 */
 
 QCC_GenValue* genPosInt() {
-
-	return QCC_genInt(0, 50);
+	return QCC_genIntR(0, 50);
 }
 
 /*
@@ -77,8 +76,8 @@ QCC_GenValue* genPosInt() {
 /*	C-SYM-QCC-02	*/
 QCC_TestStatus test_AnyStringSymbol(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
-	char *sec = *QCC_getValue(vals, 0, char**);
-	int size = (int) *QCC_getValue(vals, 1, int*);
+        char *sec = QCC_getValue(vals, 0, char *);
+	int size = *QCC_getValue(vals, 1, int*);
 
 	Symbol s = Symbol_newSymbol(sec, size);
 
@@ -112,7 +111,7 @@ int main()
 
 	/* añadir las pruebas de la suite Symbol */
 	/* ATENCIÓN: EL ORDEN ES IMPORTANTE */
-   
+
 	if (NULL == CU_add_test(pSuite, "C-SYM-NEW-01" , test_newSymbolWithNullSequence)
 	||  NULL == CU_add_test(pSuite, "C-SYM-HASH-01", test_hashCodeWithEqualObjects)
 	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-01"  , test_EqualObjects)
@@ -125,7 +124,7 @@ int main()
 	/* ejecutar las pruebas usando la interfaz CUnit Basic */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
-   
+
 	/*if (CU_get_number_of_failures() > 0) {
 		CU_cleanup_registry();
 		return 1;
