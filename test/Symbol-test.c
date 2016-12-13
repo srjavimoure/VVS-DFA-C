@@ -65,9 +65,6 @@ void test_InequalObjects(void) {
 
 */
 
-QCC_GenValue* genPosInt() {
-	return QCC_genIntR(0, 50);
-}
 
 /*
 	Pruebas que usan generadores (QUICKCHECK4C)
@@ -76,14 +73,12 @@ QCC_GenValue* genPosInt() {
 /*	C-SYM-QCC-02	*/
 QCC_TestStatus test_AnyStringSymbol(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
-        char *sec = QCC_getValue(vals, 0, char *);
-	int size = *QCC_getValue(vals, 1, int*);
+    char *sec = QCC_getValue(vals, 0, char *);
 
-	Symbol s = Symbol_newSymbol(sec, size);
+	Symbol s = Symbol_newSymbol(sec, strlen(sec));
 
 	/*La secuencia del símbolo es los size primeros caracteres de sec*/
-	return (strlen(Symbol_getSymbol(s)) == size)
-		&& strncmp(Symbol_getSymbol(s), sec, size);
+	return (strlen(Symbol_getSymbol(s)) == strlen(sec) && strcmp(Symbol_getSymbol(s), sec) == 0);
 
 
 }
@@ -134,10 +129,14 @@ int main()
 
 	QCC_init(0);
 
-	printf("QuickCheck4C testing:\n\n");
+	printf("\n*********************\n"
+		   "QuickCheck4C testing:\n"
+		   "*********************\n");
 
 	printf("Generating strings for symbols:\n");
-	QCC_testForAll(1, 1, test_AnyStringSymbol, 2, QCC_genString, genPosInt);
+	QCC_testForAll(1, 1, test_AnyStringSymbol, 1, QCC_genString);
+
+	printf("FIN DE LAS PRUEBAS\n");
 
 	return 0;
 }
