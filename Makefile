@@ -13,7 +13,8 @@ dfa_file = resources/example.dfa
 all: tests compile run
 
 cunit:
-	gcc -Wall -c --coverage $(files) $(qcc)
+	gcc -Wall -c --coverage $(files)
+	gcc -Wall -c $(qcc) # QuickCheck va separado para que cobertura no lo considere
 	gcc -Wall --coverage -o Symbol-test Symbol.o quickcheck4c.o test/Symbol-test.c -lcunit
 	#gcc -Wall --coverage -o State-test State.o test/State-test.c -lcunit
 	#gcc -Wall --coverage -o GenList-test GenList.o test/GenList-test.c -lcunit
@@ -32,6 +33,7 @@ tests: cunit
 	#./GenList-test
 	#./Transition-test
 	#./DFA-test
+	rm -rf *-test.gcda *-test.gcno #No consideramos cobertura para los tests
 	lcov --capture --directory . --output-file coverage.info
 	genhtml coverage.info --output-directory ./doc/coverage
 	rm -rf *~ *.o *.gcda *.gcno coverage.info
