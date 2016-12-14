@@ -18,12 +18,13 @@ Symbol Symbol_newSymbol(char *sequence) {
 
 	if (this == NULL)	return NULL;
 
-	this->size = strlen(sequence);
-	this->sequence = (char *) malloc(sizeof(char) * this->size);
+	this->size = strlen(sequence) + 1;
+	this->sequence = (char *) malloc(sizeof(char) * (this->size + 1)); // Incluido el \0
 
 	if (this->sequence == NULL)	return NULL;
 
 	memcpy(this->sequence, sequence, this->size);
+	this->sequence[this->size + 1] = '\0';
 
 	return this;
 }
@@ -47,9 +48,9 @@ int Symbol_hashCode(Symbol this) {
 char Symbol_equals(void *this, void *other) {
 
 	// Reference equality
-	if (this == other) {
-		return 1;
-	}
+	if (this == other)	return 1;
+
+	if (this == NULL || other == NULL)	return 0;
 
 	Symbol th = (Symbol) this;
 	Symbol ot = (Symbol) other;

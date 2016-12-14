@@ -22,34 +22,20 @@ int clean_suiteSymbol(void)
 
 /**********************************************
 
-	GENERADORES PERSONALIZADOS PARA QCC
-
-**********************************************/
-
-// Genera cadenas de tamaño arbitrario (más allá del tamaño 50 por defecto)
-QCC_GenValue* QCC_genLargeString() {
-
-	return QCC_genStringL(2500);
-
-}
-
-
-/**********************************************
-
 	PRUEBAS DE UNIDAD PARA EL MÓDULO SYMBOL
 
 **********************************************/
 
-/*	C-SYM-NEW-01	*/
-void test_newSymbolWithNullSequence(void) {
+/*  C-SYM-NEW-01  */
+void test_NewSymbolWithNullSequence(void) {
 
 	// Devuelve NULL como símbolo si intentamos crearlo con secuencia NULL
 	CU_ASSERT_PTR_NULL(Symbol_newSymbol(NULL));
 
 }
 
-/*	C-SYM-NEW-02	*/
-void test_newSymbolWithVoidSequence(void) {
+/*  C-SYM-NEW-02  */
+void test_NewSymbolWithVoidSequence(void) {
 
 	// Devuelve un símbolo válido con tamaño 0 y secuencia ""
 
@@ -61,50 +47,105 @@ void test_newSymbolWithVoidSequence(void) {
 
 }
 
-/*	C-SYM-NEW-03	*/
+/*  C-SYM-NEW-03  */
 QCC_TestStatus test_AnyStringSymbol(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
-
-	return 1;
 
     char *sec = QCC_getValue(vals, 0, char *);
 
 	Symbol s = Symbol_newSymbol(sec);
 
-	if (!(strlen(Symbol_getSymbol(s)) == strlen(sec) && strcmp(Symbol_getSymbol(s), sec) == 0)) {
+	if (strncmp(Symbol_getSymbol(s), sec, strlen(sec)) != 0) {
 		printf("\tErrored with string <%s> and size %d\n", sec, strlen(sec));
+		printf("\tstrcmp returns %d\n", strncmp(Symbol_getSymbol(s), sec, strlen(sec)));
+
+		return QCC_FAIL;
 	}
 
-	/*La secuencia del símbolo es los size primeros caracteres de sec*/
-	return (strlen(Symbol_getSymbol(s)) == strlen(sec) && strcmp(Symbol_getSymbol(s), sec) == 0);
+	return QCC_OK;
 
 
 }
 
-/*	C-SYM-HASH-01	*/
-void test_hashCodeWithEqualObjects(void) {
+/*  C-SYM-HASH-01  */
+QCC_TestStatus test_HashCodeWithEqualObjects(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
-	Symbol s1 = Symbol_newSymbol("a");
-	Symbol s2 = Symbol_newSymbol("a");
+    char *sec = QCC_getValue(vals, 0, char *);
 
-	CU_ASSERT_EQUAL(Symbol_hashCode(s1), Symbol_hashCode(s2));
+	Symbol s1 = Symbol_newSymbol(sec);
+	Symbol s2 = Symbol_newSymbol(sec);
+
+	if (Symbol_hashCode(s1) != Symbol_hashCode(s2)) {
+		printf("\tErrored with s1 <%s> and s2 <%s>. Hashcodes are %d and %d\n",
+				 Symbol_getSymbol(s1), Symbol_getSymbol(s2), Symbol_hashCode(s1), Symbol_hashCode(s2));
+	}
+
+	return (Symbol_hashCode(s1) == Symbol_hashCode(s2))? QCC_OK : QCC_FAIL;
 }
 
-/*	C-SYM-EQ-01	*/
-void test_EqualObjects(void) {
+/*  C-SYM-EQ-01  */
+QCC_TestStatus test_EqualByReferenceObjects(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
-	Symbol s1 = Symbol_newSymbol("asdf");
-	Symbol s2 = Symbol_newSymbol("asdf"); 
+	char *sec = QCC_getValue(vals, 0, char *);
 
-	CU_ASSERT_TRUE(Symbol_equals(s1, s2));
+	Symbol s1 = Symbol_newSymbol(sec);
+	Symbol s2 = s1; 
+
+	if (!Symbol_equals(s1, s2)) {
+		printf("\tErrored with s1 being %p and s2 being %p\n", s1, s2);
+	}
+
+	return (Symbol_equals(s1, s2))? QCC_OK : QCC_FAIL;
 }
 
-/*	C-SYM-EQ-02	*/
-void test_InequalObjects(void) {
+/*  C-SYM-EQ-02  */
+QCC_TestStatus test_EqualByValueObjects(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
-	Symbol s1 = Symbol_newSymbol("asdf");
-	Symbol s2 = Symbol_newSymbol("qwer"); 
+	char *sec = QCC_getValue(vals, 0, char *);
 
-	CU_ASSERT_FALSE(Symbol_equals(s1, s2));
+	Symbol s1 = Symbol_newSymbol(sec);
+	Symbol s2 = Symbol_newSymbol(sec); 
+
+	if (!Symbol_equals(s1, s2)) {
+		printf("\tErrored with s1 <%s> and s2 <%s>\n", Symbol_getSymbol(s1), Symbol_getSymbol(s2));
+	}
+
+	return (Symbol_equals(s1, s2))? QCC_OK : QCC_FAIL;
+}
+
+/*  C-SYM-EQ-03  */
+QCC_TestStatus test_InequalObjects(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
+
+	char *sec1 = QCC_getValue(vals, 0, char *);
+	char *sec2 = QCC_getValue(vals, 1, char *);
+
+	Symbol s1 = Symbol_newSymbol(sec1);
+	Symbol s2 = Symbol_newSymbol(sec2); 
+
+	if (Symbol_equals(s1, s2)) {
+		printf("\tErrored with sec1 <%s> and sec2 <%s>\n", Symbol_getSymbol(s1), Symbol_getSymbol(s2));
+	}
+
+	return (Symbol_equals(s1, s2))? QCC_FAIL : QCC_OK;
+}
+
+/*  C-SYM-EQ-04  */
+void test_EqualToNullObject(void) {
+
+	Symbol s = Symbol_newSymbol("asdf");
+
+	CU_ASSERT_FALSE(Symbol_equals(s, NULL));
+	CU_ASSERT_FALSE(Symbol_equals(NULL, s));
+}
+
+/*  C-SYM-STR-01  */
+void test_ToString(void) {
+
+	char sec[] = "fdsa";
+
+	Symbol s = Symbol_newSymbol(sec);
+
+	CU_ASSERT_PTR_NOT_EQUAL(sec, Symbol_getSymbol(s));
+	CU_ASSERT_PTR_EQUAL(Symbol_getSymbol(s), Symbol_toString(s));
 }
 
 /*
@@ -131,11 +172,10 @@ int main()
 	/* añadir las pruebas de la suite Symbol */
 	/* ATENCIÓN: EL ORDEN ES IMPORTANTE */
 
-	if (NULL == CU_add_test(pSuite, "C-SYM-NEW-01" , test_newSymbolWithNullSequence)
-	||  NULL == CU_add_test(pSuite, "C-SYM-NEW-02", test_newSymbolWithVoidSequence)
-	||  NULL == CU_add_test(pSuite, "C-SYM-HASH-01", test_hashCodeWithEqualObjects)
-	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-01"  , test_EqualObjects)
-	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-02"  , test_InequalObjects))
+	if (NULL == CU_add_test(pSuite, "C-SYM-NEW-01" , test_NewSymbolWithNullSequence)
+	||  NULL == CU_add_test(pSuite, "C-SYM-NEW-02", test_NewSymbolWithVoidSequence)
+	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-04", test_EqualToNullObject)
+	||  NULL == CU_add_test(pSuite, "C-SYM-STR-01", test_ToString))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
@@ -149,12 +189,20 @@ int main()
 
 	QCC_init(0);
 
-	printf("\n*********************\n"
-		   "QuickCheck4C testing:\n"
-		   "*********************\n");
+	printf("\n\t\t*************************************\n\n"
+		   "\t\t\tQuickCheck4C testing:\n\n"
+		   "\t\t*************************************\n\n");
 
 	printf("C-SYM-NEW-03:\t");
-	QCC_testForAll(100, 1, test_AnyStringSymbol, 1, QCC_genLargeString);
+	QCC_testForAll(100, 1, test_AnyStringSymbol, 1, QCC_genString);
+	printf("C-SYM-HASH-01:\t");
+	QCC_testForAll(100, 1, test_HashCodeWithEqualObjects, 1, QCC_genString);
+	printf("C-SYM-EQ-01:\t");
+	QCC_testForAll(100, 1, test_EqualByReferenceObjects, 1, QCC_genString);
+	printf("C-SYM-EQ-02:\t");
+	QCC_testForAll(100, 1, test_EqualByValueObjects, 1, QCC_genString);
+	printf("C-SYM-EQ-03:\t");
+	QCC_testForAll(100, 1, test_InequalObjects, 2, QCC_genString, QCC_genString);
 
 	printf("FIN DE LAS PRUEBAS\n");
 
