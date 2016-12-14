@@ -4,31 +4,65 @@ ESTRUCTURA DEL DOCUMENTO:
 -Unidad o módulo al que afecta
 -Función/método que afecta
 -Motivación (valores frontera, diagrama de estados, ...)
+-Herramienta, estrategia o tipo de prueba relacionada
+-Contexto (de ser necesario)
 -Entrada proporcionada
 -Salida esperada
--Contexto (de ser necesario)
 
 
 *****************************************************************
 
-	MÓDULO SYMBOL
+			PRUEBAS UNITARIAS PARA EL MÓDULO SYMBOL
 	
 *****************************************************************
 	
 ID: C-SYM-NEW-01
 FUNCIÓN: newSymbol
 TIPO: Valor de frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	secuencia -> NULL
-	size es válido
 SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: C-SYM-NEW-02
+FUNCIÓN: newSymbol
+TIPO: Valor de frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	secuencia -> Secuencia vacía
+SALIDA ESPERADA: Un símbolo válido (la secuencia vacía es válida)
+
+-----------------------------------------------------------------
+
+ID: C-SYM-NEW-03
+FUNCIÓN: newSymbol
+TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (generación de datos aleatoria)
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	secuencia -> Una secuencia válida
+SALIDA ESPERADA: Un símbolo válido, representado por la cadena
+
+-----------------------------------------------------------------
+
+ID: C-SYM-GSEQ-01
+FUNCIÓN: getSymbol
+TIPO: Cobertura de funciones
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: n/a
+SALIDA ESPERADA: Un puntero a symbol->sequence (no una copia)
 
 -----------------------------------------------------------------
 
 ID: C-SYM-HASH-01
 FUNCIÓN: hashCode
 TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (Generación aleatoria de datos)
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	Se llama dos veces con objetos iguales
@@ -39,8 +73,10 @@ SALIDA ESPERADA: El mismo hashcode para ambos
 ID: C-SYM-EQ-01
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (Generación aleatoria de datos)
 CONTEXTO: n/a
-ENTRADA PROPORCIONADA: this es igual que other
+ENTRADA PROPORCIONADA:
+	-This y other son punteros al mismo objeto (igualdad por referencia)
 SALIDA ESPERADA: true
 	
 -----------------------------------------------------------------
@@ -48,22 +84,43 @@ SALIDA ESPERADA: true
 ID: C-SYM-EQ-02
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (Generación aleatoria de datos)
 CONTEXTO: n/a
-ENTRADA PROPORCIONADA: this es distinto a other
+ENTRADA PROPORCIONADA:
+	-This y other son objetos equivalentes (igualdad por valor)
+SALIDA ESPERADA: true
+	
+-----------------------------------------------------------------
+
+ID: C-SYM-EQ-03
+FUNCIÓN: equals
+TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (Generación aleatoria de datos)
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	-This y other son objetos distintos
 SALIDA ESPERADA: false
 	
 -----------------------------------------------------------------
 
-ID: C-SYM-QCC-02
-FUNCIÓN: newSymbol
-TIPO: Generación de datos aleatoria
+ID: C-SYM-EQ-04
+FUNCIÓN: equals
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	secuencia -> generada por quickcheck
-	size -> generada por quickcheck
-SALIDA ESPERADA:
-	El símbolo generado, de tamaño size (si es menor que la
-	secuencia real,	la cadena se trunca)
+	-Other es nulo (this no es nulo por definición)
+SALIDA ESPERADA: false
+	
+-----------------------------------------------------------------
+
+ID: C-SYM-STR-01
+FUNCIÓN: toString
+TIPO: Cobertura de funciones
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: n/a
+SALIDA ESPERADA: Un puntero a symbol->sequence
 
 *****************************************************************
 
