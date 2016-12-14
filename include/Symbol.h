@@ -5,8 +5,8 @@
  * given DFA.
  */
 
-typedef struct ST_Symbol *Symbol;
- 
+typedef struct ST_Symbol *Symbol; 
+
 /**
  * 	Creates a new symbol based on a char secuence (the symbol allocates its own
  * memory).
@@ -17,7 +17,7 @@ typedef struct ST_Symbol *Symbol;
  * OUT:
  * 	-The symbol itself.
  */
-extern Symbol Symbol_newSymbol(char *sequence, int size);
+extern Symbol Symbol_newSymbol(char *sequence);
 
 /**
  * Returns the char sequence that represents this symbol

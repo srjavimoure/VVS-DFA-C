@@ -42,7 +42,7 @@ DFA DFAasString(char *string) {
 	GenList alph = Alphabet_newAlphabet();
 	while(string[i] != ';') {
 		if(string[i] == ' ') {
-			if (u != 0)	Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer, u));
+			if (u != 0)	Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer));
 			u = 0;
 		}
 		else {
@@ -53,7 +53,7 @@ DFA DFAasString(char *string) {
 	i++;
 
 	if (u != 0) {
-		Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer, u));
+		Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer));
 		u = 0;
 	}
 
@@ -124,7 +124,7 @@ DFA DFAasString(char *string) {
 			i++;
 		}
 		
-		input = Symbol_newSymbol(buffer, u);
+		input = Symbol_newSymbol(buffer);
 		u = 0;
 		i++;
 

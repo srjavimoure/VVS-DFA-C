@@ -22,6 +22,20 @@ int clean_suiteSymbol(void)
 
 /**********************************************
 
+	GENERADORES PERSONALIZADOS PARA QCC
+
+**********************************************/
+
+// Genera cadenas de tamaño arbitrario (más allá del tamaño 50 por defecto)
+QCC_GenValue* QCC_genLargeString() {
+
+	return QCC_genStringL(2500);
+
+}
+
+
+/**********************************************
+
 	PRUEBAS DE UNIDAD PARA EL MÓDULO SYMBOL
 
 **********************************************/
@@ -29,55 +43,32 @@ int clean_suiteSymbol(void)
 /*	C-SYM-NEW-01	*/
 void test_newSymbolWithNullSequence(void) {
 
-	CU_ASSERT_PTR_NULL(Symbol_newSymbol(NULL, 0));
+	// Devuelve NULL como símbolo si intentamos crearlo con secuencia NULL
+	CU_ASSERT_PTR_NULL(Symbol_newSymbol(NULL));
 
 }
 
-/*	C-SYM-HASH-01	*/
-void test_hashCodeWithEqualObjects(void) {
+/*	C-SYM-NEW-02	*/
+void test_newSymbolWithVoidSequence(void) {
 
-	Symbol s1 = Symbol_newSymbol("a", 2);
-	Symbol s2 = Symbol_newSymbol("a", 2);
+	// Devuelve un símbolo válido con tamaño 0 y secuencia ""
 
-	CU_ASSERT_EQUAL(Symbol_hashCode(s1), Symbol_hashCode(s2));
+	Symbol s = Symbol_newSymbol("");
+
+	CU_ASSERT_PTR_NOT_NULL(s);
+	CU_ASSERT_STRING_EQUAL(Symbol_getSymbol(s), "");
+	CU_ASSERT_EQUAL(strlen(Symbol_getSymbol(s)), 0);
+
 }
 
-/*	C-SYM-EQ-01	*/
-void test_EqualObjects(void) {
-
-	Symbol s1 = Symbol_newSymbol("asdf", 10);
-	Symbol s2 = Symbol_newSymbol("asdf", 10); 
-
-	CU_ASSERT_TRUE(Symbol_equals(s1, s2));
-}
-
-/*	C-SYM-EQ-02	*/
-void test_InequalObjects(void) {
-
-	Symbol s1 = Symbol_newSymbol("asdf", 10);
-	Symbol s2 = Symbol_newSymbol("qwer", 10); 
-
-	CU_ASSERT_FALSE(Symbol_equals(s1, s2));
-}
-
-/*
-	Generadores de datos propias
-
-*/
-
-
-/*
-	Pruebas que usan generadores (QUICKCHECK4C)
-*/
-
-/*	C-SYM-QCC-02	*/
+/*	C-SYM-NEW-03	*/
 QCC_TestStatus test_AnyStringSymbol(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
 	return 1;
 
     char *sec = QCC_getValue(vals, 0, char *);
 
-	Symbol s = Symbol_newSymbol(sec, strlen(sec));
+	Symbol s = Symbol_newSymbol(sec);
 
 	if (!(strlen(Symbol_getSymbol(s)) == strlen(sec) && strcmp(Symbol_getSymbol(s), sec) == 0)) {
 		printf("\tErrored with string <%s> and size %d\n", sec, strlen(sec));
@@ -87,6 +78,33 @@ QCC_TestStatus test_AnyStringSymbol(QCC_GenValue **vals, int len, QCC_Stamp **st
 	return (strlen(Symbol_getSymbol(s)) == strlen(sec) && strcmp(Symbol_getSymbol(s), sec) == 0);
 
 
+}
+
+/*	C-SYM-HASH-01	*/
+void test_hashCodeWithEqualObjects(void) {
+
+	Symbol s1 = Symbol_newSymbol("a");
+	Symbol s2 = Symbol_newSymbol("a");
+
+	CU_ASSERT_EQUAL(Symbol_hashCode(s1), Symbol_hashCode(s2));
+}
+
+/*	C-SYM-EQ-01	*/
+void test_EqualObjects(void) {
+
+	Symbol s1 = Symbol_newSymbol("asdf");
+	Symbol s2 = Symbol_newSymbol("asdf"); 
+
+	CU_ASSERT_TRUE(Symbol_equals(s1, s2));
+}
+
+/*	C-SYM-EQ-02	*/
+void test_InequalObjects(void) {
+
+	Symbol s1 = Symbol_newSymbol("asdf");
+	Symbol s2 = Symbol_newSymbol("qwer"); 
+
+	CU_ASSERT_FALSE(Symbol_equals(s1, s2));
 }
 
 /*
@@ -114,6 +132,7 @@ int main()
 	/* ATENCIÓN: EL ORDEN ES IMPORTANTE */
 
 	if (NULL == CU_add_test(pSuite, "C-SYM-NEW-01" , test_newSymbolWithNullSequence)
+	||  NULL == CU_add_test(pSuite, "C-SYM-NEW-02", test_newSymbolWithVoidSequence)
 	||  NULL == CU_add_test(pSuite, "C-SYM-HASH-01", test_hashCodeWithEqualObjects)
 	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-01"  , test_EqualObjects)
 	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-02"  , test_InequalObjects))
@@ -126,11 +145,6 @@ int main()
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
 
-	/*if (CU_get_number_of_failures() > 0) {
-		CU_cleanup_registry();
-		return 1;
-	}*/
-
 	CU_cleanup_registry();
 
 	QCC_init(0);
@@ -139,8 +153,8 @@ int main()
 		   "QuickCheck4C testing:\n"
 		   "*********************\n");
 
-	printf("Generating strings for symbols:\n");
-	QCC_testForAll(100, 1, test_AnyStringSymbol, 1, QCC_genString);
+	printf("C-SYM-NEW-03:\t");
+	QCC_testForAll(100, 1, test_AnyStringSymbol, 1, QCC_genLargeString);
 
 	printf("FIN DE LAS PRUEBAS\n");
 

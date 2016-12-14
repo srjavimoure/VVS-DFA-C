@@ -6,20 +6,24 @@ struct ST_Symbol {
 	int32_t size;
 	char *sequence;
 };
+
 typedef struct ST_Symbol *Symbol;
 
-Symbol Symbol_newSymbol(char *sequence, int size) {
+Symbol Symbol_newSymbol(char *sequence) {
+
+	// Esto cascaría fuertemente si dejase que haga strlen de NULL
+	if (sequence == NULL)	return NULL;
 
 	Symbol this = (Symbol) malloc(sizeof(struct ST_Symbol));
 
 	if (this == NULL)	return NULL;
 
-	this->size = size;
-	this->sequence = (char *) malloc(sizeof(char) * size);
+	this->size = strlen(sequence);
+	this->sequence = (char *) malloc(sizeof(char) * this->size);
 
 	if (this->sequence == NULL)	return NULL;
 
-	memcpy(this->sequence, sequence, size);
+	memcpy(this->sequence, sequence, this->size);
 
 	return this;
 }

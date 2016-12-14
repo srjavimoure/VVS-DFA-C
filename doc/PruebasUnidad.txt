@@ -49,16 +49,6 @@ SALIDA ESPERADA: Un símbolo válido, representado por la cadena
 
 -----------------------------------------------------------------
 
-ID: C-SYM-GSEQ-01
-FUNCIÓN: getSymbol
-TIPO: Cobertura de funciones
-HERRAMIENTA: CUnit
-CONTEXTO: n/a
-ENTRADA PROPORCIONADA: n/a
-SALIDA ESPERADA: Un puntero a symbol->sequence (no una copia)
-
------------------------------------------------------------------
-
 ID: C-SYM-HASH-01
 FUNCIÓN: hashCode
 TIPO: Particiones equivalentes
