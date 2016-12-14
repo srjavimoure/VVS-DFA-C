@@ -8,7 +8,8 @@
 output = out
 files = source/Symbol.c source/State.c source/GenList.c source/Alphabet.c source/Transition.c source/DFA.c source/main.c
 qcc = test/quickcheck4c.c
-dfa_file = resources/example.dfa
+dfa_file = resources
+file_example = example.dfa
 
 all: tests compile run
 
@@ -20,12 +21,16 @@ cunit:
 	#gcc -Wall --coverage -o GenList-test GenList.o test/GenList-test.c -lcunit
 	#gcc -Wall --coverage -o Transition-test Transition.o test/Transition-test.c -lcunit
 	#gcc -Wall --coverage -o DFA-test DFA.o test/DFA-test.c -lcunit
-	rm -rf *~
 
-doc:
+doc: tests
+	# CppCheck
 	cppcheck --error-exitcode=0 $(files) -I include/ --xml 2> doc/cppcheck.xml
 	cppcheck-htmlreport --file=doc/cppcheck.xml --title=VVS-DFA-C --report-dir=doc/cppcheck
-	rm doc/cppcheck.xml
+	# Cobertura
+	rm -rf *~ *-test.gcda *-test.gcno #No consideramos cobertura para los tests
+	lcov --capture --directory . --output-file coverage.info
+	genhtml coverage.info --output-directory ./doc/coverage
+	rm -rf doc/cppcheck.xml *~ *.o *.gcda *.gcno coverage.info
 
 tests: cunit
 	./Symbol-test
@@ -33,13 +38,12 @@ tests: cunit
 	#./GenList-test
 	#./Transition-test
 	#./DFA-test
-	rm -rf *-test.gcda *-test.gcno #No consideramos cobertura para los tests
-	lcov --capture --directory . --output-file coverage.info
-	genhtml coverage.info --output-directory ./doc/coverage
-	rm -rf *~ *.o *.gcda *.gcno coverage.info
 
 run:
-	./$(output) -f $(dfa_file)
+	./$(output) -f $(dfa_file)/${file}
+
+example: compile
+	./$(output) -f $(dfa_file)/$(file_example)
 
 compile:
 	gcc -o $(output) $(files)

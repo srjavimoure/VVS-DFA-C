@@ -1,0 +1,10 @@
+doc/cppcheck/**
+doc/coverage/**
+*~
+*-test.gcno
+*-test.gcda
+*-test
+*.o
+*.tst
+out
+coverage.info
