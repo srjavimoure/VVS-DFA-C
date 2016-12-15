@@ -37,8 +37,6 @@ void test_NewSymbolWithNullSequence(void) {
 /*  C-SYM-NEW-02  */
 void test_NewSymbolWithVoidSequence(void) {
 
-	// Devuelve un símbolo válido con tamaño 0 y secuencia ""
-
 	Symbol s = Symbol_newSymbol("");
 
 	CU_ASSERT_PTR_NOT_NULL(s);
@@ -71,6 +69,12 @@ QCC_TestStatus test_AnyStringSymbol(QCC_GenValue **vals, int len, QCC_Stamp **st
 
 }
 
+/*  C-SYM-GSYM-01  */
+void test_GetSymbolFromNull(void) {
+
+	CU_ASSERT_PTR_NULL(Symbol_getSymbol(NULL));
+}
+
 /*  C-SYM-HASH-01  */
 QCC_TestStatus test_HashCodeWithEqualObjects(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
@@ -96,6 +100,12 @@ QCC_TestStatus test_HashCodeWithEqualObjects(QCC_GenValue **vals, int len, QCC_S
 		Symbol_destroy(&s2);
 		return QCC_FAIL;
 	}
+}
+
+/*  C-SYM-HASH-02  */
+void test_HashCodeFromNull(void) {
+
+	CU_ASSERT_EQUAL(Symbol_hashCode(NULL), -1);
 }
 
 /*  C-SYM-EQ-01  */
@@ -204,6 +214,12 @@ void test_ToString(void) {
 	Symbol_destroy(&s);
 }
 
+/*  C-SYM-STR-02  */
+void test_ToStringFromNull(void) {
+
+	CU_ASSERT_PTR_NULL(Symbol_toString(NULL));
+}
+
 /*
   Función principal para la ejecución de las pruebas.
   Devuelve CUE_SUCCESS si pasan correctamente,
@@ -232,8 +248,11 @@ int main()
 
 	if (NULL == CU_add_test(pSuite, "C-SYM-NEW-01" , test_NewSymbolWithNullSequence)
 	||  NULL == CU_add_test(pSuite, "C-SYM-NEW-02", test_NewSymbolWithVoidSequence)
+	||  NULL == CU_add_test(pSuite, "C-SYM-GSYM-01", test_GetSymbolFromNull)
+	||  NULL == CU_add_test(pSuite, "C-SYM-HASH-02", test_HashCodeFromNull)
 	||  NULL == CU_add_test(pSuite, "C-SYM-EQ-04", test_EqualToNullObject)
-	||  NULL == CU_add_test(pSuite, "C-SYM-STR-01", test_ToString))
+	||  NULL == CU_add_test(pSuite, "C-SYM-STR-01", test_ToString)
+	||  NULL == CU_add_test(pSuite, "C-SYM-STR-02", test_ToStringFromNull))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

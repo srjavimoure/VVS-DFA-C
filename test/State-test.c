@@ -72,6 +72,12 @@ QCC_TestStatus test_AnyStringState(QCC_GenValue **vals, int len, QCC_Stamp **sta
 
 }
 
+/*  C-ST-GST-01  */
+void test_GetStateFromNull(void) {
+
+	CU_ASSERT_PTR_NULL(State_getState(NULL));
+}
+
 /*  C-ST-HASH-01  */
 QCC_TestStatus test_HashCodeWithEqualObjects(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
@@ -97,6 +103,12 @@ QCC_TestStatus test_HashCodeWithEqualObjects(QCC_GenValue **vals, int len, QCC_S
 		State_destroy(&s2);
 		return QCC_FAIL;
 	}
+}
+
+/*  C-ST-HASH-02  */
+void test_HashCodeFromNull(void) {
+
+	CU_ASSERT_EQUAL(State_hashCode(NULL), -1);
 }
 
 /*  C-ST-EQ-01  */
@@ -205,6 +217,12 @@ void test_ToString(void) {
 	State_destroy(&s);
 }
 
+/*  C-ST-STR-02  */
+void test_ToStringFromNull(void) {
+
+	CU_ASSERT_PTR_NULL(State_toString(NULL));
+}
+
 /*
   Función principal para la ejecución de las pruebas.
   Devuelve CUE_SUCCESS si pasan correctamente,
@@ -233,8 +251,11 @@ int main()
 
 	if (NULL == CU_add_test(pSuite, "C-ST-NEW-01" , test_NewStateWithNullSequence)
 	||  NULL == CU_add_test(pSuite, "C-ST-NEW-02", test_NewStateWithVoidSequence)
+	||  NULL == CU_add_test(pSuite, "C-ST-GST-01", test_GetStateFromNull)
+	||  NULL == CU_add_test(pSuite, "C-ST-HASH-02", test_HashCodeFromNull)
 	||  NULL == CU_add_test(pSuite, "C-ST-EQ-04", test_EqualToNullObject)
-	||  NULL == CU_add_test(pSuite, "C-ST-STR-01", test_ToString))
+	||  NULL == CU_add_test(pSuite, "C-ST-STR-01", test_ToString)
+	||  NULL == CU_add_test(pSuite, "C-ST-STR-02", test_ToStringFromNull))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

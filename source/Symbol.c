@@ -38,10 +38,14 @@ Symbol Symbol_newSymbol(char *sequence) {
 
 char *Symbol_getSymbol(Symbol this) {
 
+	if (this == NULL)	return NULL;
+
 	return this->sequence;
 }
 
 int Symbol_hashCode(Symbol this) {
+
+	if (this == NULL)	return -1;
 
 	int32_t hash = 13;
 	int i;
@@ -77,13 +81,14 @@ char Symbol_equals(void *this, void *other) {
 
 char *Symbol_toString(Symbol this) {
 
+	if (this == NULL)	return NULL;
+
 	return this->sequence;
 }
 
 void Symbol_destroy(Symbol *this) {
 
 	// Pasamos la referencia del objeto para poder asignarle NULL
-
 	if ((*this) == NULL)	return;
 
 	if ((*this)->sequence != NULL)	free((*this)->sequence);

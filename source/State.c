@@ -37,10 +37,14 @@ State State_newState(char *sequence) {
 
 char *State_getState(State this) {
 
+	if (this == NULL)	return NULL;
+
 	return this->sequence;
 }
 
 int State_hashCode(State this) {
+
+	if (this == NULL)	return -1;
 
 	int32_t hash = 17;
 	int i;
@@ -75,6 +79,8 @@ char State_equals(void *this, void *other) {
 }
 
 char *State_toString(void *this) {
+
+	if (this == NULL)	return NULL;
 
 	return ((State) this)->sequence;
 }

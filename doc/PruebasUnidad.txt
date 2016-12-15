@@ -49,6 +49,17 @@ SALIDA ESPERADA: Un símbolo válido, representado por la cadena
 
 -----------------------------------------------------------------
 
+ID: C-SYM-GSYM-01
+FUNCIÓN: getSymbol
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	symbol -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
 ID: C-SYM-HASH-01
 FUNCIÓN: hashCode
 TIPO: Particiones equivalentes
@@ -57,6 +68,17 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	Se llama dos veces con objetos iguales
 SALIDA ESPERADA: El mismo hashcode para ambos
+
+-----------------------------------------------------------------
+
+ID: C-SYM-HASH-02
+FUNCIÓN: hashCode
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	symbol -> NULL
+SALIDA ESPERADA: -1
 
 -----------------------------------------------------------------
 
@@ -112,6 +134,17 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA: n/a
 SALIDA ESPERADA: Un puntero a symbol->sequence
 
+-----------------------------------------------------------------
+
+ID: C-SYM-STR-02
+FUNCIÓN: toString
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	symbol -> NULL
+SALIDA ESPERADA: NULL
+
 *****************************************************************
 
 			PRUEBAS UNITARIAS PARA EL MÓDULO GENLIST
@@ -121,9 +154,30 @@ SALIDA ESPERADA: Un puntero a symbol->sequence
 ID: C-GLIST-NEW-01
 FUNCIÓN: newGenList
 TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (generación aleatoria de datos)
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA: buffer < 0
 SALIDA ESPERADA: Lista vacía de tamaño mínimo predeterminado
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-NEW-02
+FUNCIÓN: newGenList
+TIPO: Valores de frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: buffer == 0
+SALIDA ESPERADA: Lista vacía de tamaño mínimo predeterminado
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-NEW-03
+FUNCIÓN: newGenList
+TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (generación aleatoria de datos)
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: buffer > 0
+SALIDA ESPERADA: buffer es el indicado y size es 0
 
 -----------------------------------------------------------------
 
@@ -286,7 +340,7 @@ SALIDA ESPERADA: el elemento
 
 *****************************************************************
 
-	MÓDULO ALPHABET
+			PRUEBAS UNITARIAS PARA EL MÓDULO ALPHABET
 	
 *****************************************************************	
 
@@ -334,6 +388,17 @@ SALIDA ESPERADA: Un estado válido, representado por la cadena
 
 -----------------------------------------------------------------
 
+ID: C-ST-GST-02
+FUNCIÓN: getState
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	state -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
 ID: C-ST-HASH-01
 FUNCIÓN: hashCode
 TIPO: Particiones equivalentes
@@ -342,6 +407,17 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	Se llama dos veces con objetos iguales
 SALIDA ESPERADA: El mismo hashcode para ambos
+
+-----------------------------------------------------------------
+
+ID: C-ST-HASH-02
+FUNCIÓN: hashCode
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	state -> NULL
+SALIDA ESPERADA: -1
 
 -----------------------------------------------------------------
 
@@ -396,6 +472,17 @@ HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA: n/a
 SALIDA ESPERADA: Un puntero a symbol->sequence
+
+-----------------------------------------------------------------
+
+ID: C-ST-STR-02
+FUNCIÓN: toString
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	state -> NULL
+SALIDA ESPERADA: NULL
 	
 *****************************************************************
 
