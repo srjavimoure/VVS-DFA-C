@@ -1,8 +1,8 @@
 doc/cppcheck/**
 doc/coverage/**
 *~
-*-test.gcno
-*-test.gcda
+*.gcno
+*.gcda
 *-test
 *.o
 *.tst

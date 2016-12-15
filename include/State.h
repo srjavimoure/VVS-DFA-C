@@ -38,3 +38,8 @@ extern char State_equals(void *this, void *other);
  * Returns the String representation of this object
  */
 extern char *State_toString(void *this);
+
+/**
+ * Frees the memory used by this State and sets the pointer to null
+ */
+extern void State_destroy(State *this);
