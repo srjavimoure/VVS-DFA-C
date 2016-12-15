@@ -1,46 +1,63 @@
-/*
-  FILE: GenList-test.c
-  DESCRIPTION: Fichero de pruebas de unidad cUnit para GenList.
-  AUTHOR: 
-  LICENSE:
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "../include/GenList.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
+// Generación de datos aleatoria
+#include "quickcheck4c.h"
 
 /*
   Función de inicialización de las pruebas.
  */
-int init_suite1(void)
+int init_suiteGenList(void)
 {
-  return 0;
+	return 0;
 }
 
 /*
   Función de finalización de las pruebas.
  */
-int clean_suite1(void)
+int clean_suiteGenList(void)
 {
-  return 0;
+	return 0;
 }
 
 /*
-  Prueba de unidad.
+	Generador de numeros negativos
  */
-void test_GenList(void)
-{
-	CU_PASS("GenList passed.\n");
+QCC_GenValue *QCC_genNegativeInt(void) {
+	return QCC_genIntR(-50, -1);
+}
+
+
+/*  C-GLIST-NEW-01  */
+QCC_TestStatus test_NewGenListNegBuffer(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
+
+    int buf = QCC_getValue(vals, 0, int);
+
+	GenList g = GenList_newGenList(buf);
+
+	if (GenList_getBuffer(g) == 5 && GenList_getSize(g) == 0) {
+
+		return QCC_OK;
+	}
+	else {
+
+		printf("Failed with buffer %d (real buffer %d)\n",
+				buf, GenList_getBuffer(g));
+
+		return QCC_FAIL;
+	}
+
+}
+
+/*  C-GLIST-NEW-02  */
+void test_NewGenListZeroBuffer(void) {
+
+	GenList g = GenList_newGenList(0);
+
+	CU_ASSERT_PTR_NOT_NULL(g);
+	CU_ASSERT_EQUAL(GenList_getSize(g), 0);
+	CU_ASSERT_EQUAL(GenList_getBuffer(g), 5);
+
 }
 
 /*
@@ -50,30 +67,46 @@ void test_GenList(void)
  */
 int main()
 {
-   CU_pSuite pSuite = NULL;
 
-   /* inicializar el registro de pruebas CUnit */
-   if (CUE_SUCCESS != CU_initialize_registry())
-      return CU_get_error();
+	printf("\n\nBEGIN GENLIST MODULE'S UNIT TESTING\n");
 
-   /* añadir un conjunto de pruebas al registro */
-   pSuite = CU_add_suite("Suite_GenList", init_suite1, clean_suite1);
-   if (NULL == pSuite) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+	CU_pSuite pSuite = NULL;
 
-   /* añadir las pruebas al conjunto */
-   /* ATENCIÓN: EL ORDEN ES IMPORTANTE */
-   if (NULL == CU_add_test(pSuite, "Prueba de GenList", test_GenList))
-   {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+	/* inicializar el registro de pruebas CUnit */
+	if (CUE_SUCCESS != CU_initialize_registry())
+		return CU_get_error();
 
-   /* ejecutar las pruebas usando la interfaz CUnit Basic */
-   CU_basic_set_mode(CU_BRM_VERBOSE);
-   CU_basic_run_tests();
-   CU_cleanup_registry();
-   return CU_get_error();
+	/* añadir una suite de pruebas al registro */
+	pSuite = CU_add_suite("Suite_GenList", init_suiteGenList, clean_suiteGenList);
+	if (NULL == pSuite) {
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	/* añadir las pruebas de la suite GenList */
+	/* ATENCIÓN: EL ORDEN ES IMPORTANTE */
+	if (NULL == CU_add_test(pSuite, "C-GLIST-NEW-02", test_NewGenListZeroBuffer))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	/* ejecutar las pruebas usando la interfaz CUnit Basic */
+	CU_basic_set_mode(CU_BRM_VERBOSE);
+	CU_basic_run_tests();
+
+	CU_cleanup_registry();
+
+	QCC_init(0);
+
+	printf("\n\t\t*************************************\n\n"
+		   "\t\t\tQuickCheck4C testing:\n\n"
+		   "\t\t*************************************\n\n");
+
+	printf("C-GLIST-NEW-01:\t");
+	QCC_testForAll(1000, 1, test_NewGenListNegBuffer, 1, QCC_genNegativeInt);
+
+	printf("\n\nEND GENLIST MODULE'S UNIT TESTING\n");
+
+	return CU_get_error();
 }

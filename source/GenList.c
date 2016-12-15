@@ -21,7 +21,7 @@ GenList GenList_newGenList(int buffer) {
 
 	if (genList == NULL)	return NULL;
 
-	genList->buffer = buffer < 0 ? DEFBUFFER : buffer;
+	genList->buffer = buffer <= 0 ? DEFBUFFER : buffer;
 	genList->size = 0;
 	genList->realSize = genList->buffer;
 
