@@ -182,7 +182,7 @@ SALIDA ESPERADA: buffer es el indicado y size es 0
 -----------------------------------------------------------------
 
 ID: C-GLIST-GBUF-01
-FUnCIÓN: getBuffer
+FUNCIÓN: getBuffer
 TIPO: Valores frontera en entrada
 HERRAMIENTA: CUnit
 CONTEXTO: n/a
@@ -193,7 +193,7 @@ SALIDA ESPERADA: -1
 -----------------------------------------------------------------
 
 ID: C-GLIST-GSIZ-01
-FUnCIÓN: getSize
+FUNCIÓN: getSize
 TIPO: Valores frontera en entrada
 HERRAMIENTA: CUnit
 CONTEXTO: n/a
@@ -204,26 +204,26 @@ SALIDA ESPERADA: -1
 -----------------------------------------------------------------
 
 ID: C-GLIST-ADD-01
-FUnCIÓN: add
+FUNCIÓN: add
 TIPO: Valores frontera en entrada
 HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this -> NULL
 	element -> irrelevante
-SALIDA ESPERADA: El programa no casca
+SALIDA ESPERADA: El programa no crashea
 
 -----------------------------------------------------------------
 
 ID: C-GLIST-ADD-02
-FUnCIÓN: add
+FUNCIÓN: add
 TIPO: Valores frontera en entrada
 HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this -> irrelevante
 	element -> NULL
-SALIDA ESPERADA: El programa no casca
+SALIDA ESPERADA: El programa no crashea
 
 -----------------------------------------------------------------
 
@@ -235,7 +235,7 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this -> lista con num_elementos == buffer
 	elemento -> válido
-SALIDA ESPERADA: lista con num_elementos + 1 y aumentado en tamaño
+SALIDA ESPERADA: lista con elemento añadido, size + 1 y aumentado en tamaño
 
 -----------------------------------------------------------------
 
@@ -247,19 +247,7 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this -> lista con num_elementos < buffer
 	elemento -> válido
-SALIDA ESPERADA: lista con num_elementos + 1, elemento añadido y size + 1
-
------------------------------------------------------------------
-
-ID: C-GLIST-ADD-05
-FUNCIÓN: add
-TIPO: Valores frontera en entrada
-HERRAMIENTA: CUnit
-CONTEXTO: n/a
-ENTRADA PROPORCIONADA:
-	this -> lista válida
-	elemento -> NULL
-SALIDA ESPERADA: la misma lista que entró, la aplicación no crashea
+SALIDA ESPERADA: lista con elemento añadido y size + 1
 
 -----------------------------------------------------------------
 
