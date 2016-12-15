@@ -204,7 +204,7 @@ int main()
 	printf("C-SYM-EQ-03:\t");
 	QCC_testForAll(100, 1, test_InequalObjects, 2, QCC_genString, QCC_genString);
 
-	printf("FIN DE LAS PRUEBAS\n");
+	printf("\n\nEND SYMBOL MODULE'S UNIT TESTING\n");
 
 	return 0;
 }

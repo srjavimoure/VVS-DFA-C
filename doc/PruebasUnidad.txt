@@ -114,7 +114,7 @@ SALIDA ESPERADA: Un puntero a symbol->sequence
 
 *****************************************************************
 
-	MÓDULO GENLIST
+			PRUEBAS UNITARIAS PARA EL MÓDULO GENLIST
 	
 *****************************************************************
 
@@ -297,36 +297,61 @@ de las ya realizadas en GenList.
 
 *****************************************************************
 
-	MÓDULO STATE
+			PRUEBAS UNITARIAS PARA EL MÓDULO STATE
 	
 *****************************************************************
-	
+
 ID: C-ST-NEW-01
 FUNCIÓN: newState
 TIPO: Valor de frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	secuencia -> NULL
-	size -> 0
 SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: C-ST-NEW-02
+FUNCIÓN: newState
+TIPO: Valor de frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	secuencia -> Secuencia vacía
+SALIDA ESPERADA: Un estado válido (la secuencia vacía es válida)
+
+-----------------------------------------------------------------
+
+ID: C-ST-NEW-03
+FUNCIÓN: newState
+TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (generación de datos aleatoria)
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	secuencia -> Una secuencia válida
+SALIDA ESPERADA: Un estado válido, representado por la cadena
 
 -----------------------------------------------------------------
 
 ID: C-ST-HASH-01
 FUNCIÓN: hashCode
 TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (Generación aleatoria de datos)
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	Dos objetos iguales
-SALIDA ESPERADA: El mismo hashCode
+	Se llama dos veces con objetos iguales
+SALIDA ESPERADA: El mismo hashcode para ambos
 
 -----------------------------------------------------------------
 
 ID: C-ST-EQ-01
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (Generación aleatoria de datos)
 CONTEXTO: n/a
-ENTRADA PROPORCIONADA: this es igual que other
+ENTRADA PROPORCIONADA:
+	-This y other son punteros al mismo objeto (igualdad por referencia)
 SALIDA ESPERADA: true
 	
 -----------------------------------------------------------------
@@ -334,9 +359,43 @@ SALIDA ESPERADA: true
 ID: C-ST-EQ-02
 FUNCIÓN: equals
 TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (Generación aleatoria de datos)
 CONTEXTO: n/a
-ENTRADA PROPORCIONADA: this es distinto a other
+ENTRADA PROPORCIONADA:
+	-This y other son objetos equivalentes (igualdad por valor)
+SALIDA ESPERADA: true
+	
+-----------------------------------------------------------------
+
+ID: C-ST-EQ-03
+FUNCIÓN: equals
+TIPO: Particiones equivalentes
+HERRAMIENTA: QuickCheck4c (Generación aleatoria de datos)
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	-This y other son objetos distintos
 SALIDA ESPERADA: false
+	
+-----------------------------------------------------------------
+
+ID: C-ST-EQ-04
+FUNCIÓN: equals
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	-Other es nulo (this no es nulo por definición)
+SALIDA ESPERADA: false
+	
+-----------------------------------------------------------------
+
+ID: C-ST-STR-01
+FUNCIÓN: toString
+TIPO: Cobertura de funciones
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA: n/a
+SALIDA ESPERADA: Un puntero a symbol->sequence
 	
 *****************************************************************
 
