@@ -3,7 +3,7 @@
 #include "../include/Symbol.h"
 
 struct ST_Symbol {
-	int32_t size;
+	int32_t size;	// Explicitly-defined size for memory aligment purposes
 	char *sequence;
 };
 
@@ -72,4 +72,3 @@ char *Symbol_toString(Symbol this) {
 
 	return this->sequence;
 }
-

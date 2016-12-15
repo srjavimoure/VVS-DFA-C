@@ -118,6 +118,10 @@ QCC_TestStatus test_InequalObjects(QCC_GenValue **vals, int len, QCC_Stamp **sta
 	char *sec1 = QCC_getValue(vals, 0, char *);
 	char *sec2 = QCC_getValue(vals, 1, char *);
 
+	if (strcmp(sec1, sec2) == 0) {
+		return QCC_NOTHING;
+	}
+
 	Symbol s1 = Symbol_newSymbol(sec1);
 	Symbol s2 = Symbol_newSymbol(sec2); 
 
@@ -155,6 +159,8 @@ void test_ToString(void) {
  */
 int main()
 {
+
+	printf("\n\nBEGIN SYMBOL MODULE'S UNIT TESTING\n");
 
 	CU_pSuite pSuite = NULL;
 
@@ -194,15 +200,15 @@ int main()
 		   "\t\t*************************************\n\n");
 
 	printf("C-SYM-NEW-03:\t");
-	QCC_testForAll(100, 1, test_AnyStringSymbol, 1, QCC_genString);
+	QCC_testForAll(50, 1, test_AnyStringSymbol, 1, QCC_genString);
 	printf("C-SYM-HASH-01:\t");
-	QCC_testForAll(100, 1, test_HashCodeWithEqualObjects, 1, QCC_genString);
+	QCC_testForAll(50, 1, test_HashCodeWithEqualObjects, 1, QCC_genString);
 	printf("C-SYM-EQ-01:\t");
-	QCC_testForAll(100, 1, test_EqualByReferenceObjects, 1, QCC_genString);
+	QCC_testForAll(50, 1, test_EqualByReferenceObjects, 1, QCC_genString);
 	printf("C-SYM-EQ-02:\t");
-	QCC_testForAll(100, 1, test_EqualByValueObjects, 1, QCC_genString);
+	QCC_testForAll(50, 1, test_EqualByValueObjects, 1, QCC_genString);
 	printf("C-SYM-EQ-03:\t");
-	QCC_testForAll(100, 1, test_InequalObjects, 2, QCC_genString, QCC_genString);
+	QCC_testForAll(50, 1, test_InequalObjects, 2, QCC_genString, QCC_genString);
 
 	printf("\n\nEND SYMBOL MODULE'S UNIT TESTING\n");
 

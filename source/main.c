@@ -21,8 +21,11 @@ DFA DFAasString(char *string) {
 	GenList states = GenList_newGenList(10);
 	while(string[i] != ';') {
 		if(string[i] == ' ') {
-			if (u != 0)	GenList_add(states, State_newState(buffer, u));
-			u = 0;
+			if (u != 0) {
+				buffer[u+1] = '\0';
+				GenList_add(states, State_newState(buffer));
+				u = 0;
+			}
 		}
 		else {
 			buffer[u++] = string[i];
@@ -32,18 +35,20 @@ DFA DFAasString(char *string) {
 	i++;
 
 	if (u != 0) {
-		GenList_add(states, State_newState(buffer, u));
+		buffer[u+1] = '\0';
+		GenList_add(states, State_newState(buffer));
 		u = 0;
 	}
-
-	printf("%s\n", GenList_toString(states, State_toString));
 
 	// Alphabet
 	GenList alph = Alphabet_newAlphabet();
 	while(string[i] != ';') {
 		if(string[i] == ' ') {
-			if (u != 0)	Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer));
-			u = 0;
+			if (u != 0) {
+				buffer[u+1] = '\0';
+				Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer));
+				u = 0;
+			}
 		}
 		else {
 			buffer[u++] = string[i];
@@ -53,11 +58,10 @@ DFA DFAasString(char *string) {
 	i++;
 
 	if (u != 0) {
+		buffer[u+1] = '\0';
 		Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer));
 		u = 0;
 	}
-
-	printf("%s\n", Alphabet_toString(alph));
 
 	// Initial state
 	while(string[i] != ';') {
@@ -66,17 +70,19 @@ DFA DFAasString(char *string) {
 	}
 	i++;
 
-	State initial = State_newState(buffer, u);
+	buffer[u+1] = '\0';
+	State initial = State_newState(buffer);
 	u = 0;
-
-	printf("%s\n", State_toString(initial));
 
 	// Final states
 	GenList final = GenList_newGenList(10);
 	while(string[i] != ';') {
 		if(string[i] == ' ') {
-			if (u != 0)	GenList_add(final, State_newState(buffer, u));
-			u = 0;
+			if (u != 0)	{
+				GenList_add(final, State_newState(buffer));
+				buffer[u+1] = '\0';
+				u = 0;
+			}
 		}
 		else {
 			buffer[u++] = string[i];
@@ -86,12 +92,10 @@ DFA DFAasString(char *string) {
 	i++;
 
 	if (u != 0) {
-		GenList_add(final, State_newState(buffer, u));
+		buffer[u+1] = '\0';
+		GenList_add(final, State_newState(buffer));
 		u = 0;
 	}
-
-	printf("%s\n", GenList_toString(final, State_toString));
-
 
 	// Transitions
 	GenList trans = GenList_newGenList(20);
@@ -107,7 +111,8 @@ DFA DFAasString(char *string) {
 			buffer[u++] = string[i];
 			i++;
 		}
-		begin = State_newState(buffer, u);
+		buffer[u+1] = '\0';
+		begin = State_newState(buffer);
 		u = 0;
 		i++;
 
@@ -115,7 +120,8 @@ DFA DFAasString(char *string) {
 			buffer[u++] = string[i];
 			i++;
 		}
-		end = State_newState(buffer, u);
+		buffer[u+1] = '\0';
+		end = State_newState(buffer);
 		u = 0;
 		i++;
 
@@ -124,6 +130,7 @@ DFA DFAasString(char *string) {
 			i++;
 		}
 		
+		buffer[u+1] = '\0';
 		input = Symbol_newSymbol(buffer);
 		u = 0;
 		i++;
@@ -132,8 +139,6 @@ DFA DFAasString(char *string) {
 
 		i++;
 	}
-
-	printf("%s\n", GenList_toString(trans, Transition_toString));
 
 	return DFA_newDFA(states, alph, initial, final, trans);
 }

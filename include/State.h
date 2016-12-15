@@ -16,7 +16,7 @@ typedef struct ST_State *State;
  * OUT:
  * 	-The state itself.
  */
-extern State State_newState(char *sequence, int size);
+extern State State_newState(char *sequence);
 
 /**
  * Returns the char sequence that represents this state

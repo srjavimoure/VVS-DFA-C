@@ -156,6 +156,8 @@ void test_ToString(void) {
 int main()
 {
 
+	printf("\n\nBEGIN STATE MODULE'S UNIT TESTING\n");
+
 	CU_pSuite pSuite = NULL;
 
 	/* inicializar el registro de pruebas CUnit */

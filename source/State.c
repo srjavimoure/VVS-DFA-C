@@ -3,23 +3,28 @@
 #include "../include/State.h"
 
 struct ST_State {
-	int32_t size;	// Explicitly defined size for memory aligment purposes
+	int32_t size;	// Explicitly-defined size for memory aligment purposes
 	char *sequence;
 };
+
 typedef struct ST_State *State;
 
-State State_newState(char *sequence, int size) {
+State State_newState(char *sequence) {
+
+	// Esto cascaría fuertemente si dejase que haga strlen de NULL
+	if (sequence == NULL)	return NULL;
 
 	State this = (State) malloc(sizeof(struct ST_State));
 
 	if (this == NULL)	return NULL;
 
-	this->size = size;
-	this->sequence = (char *) malloc(sizeof(char) * size);
+	this->size = strlen(sequence) + 1;
+	this->sequence = (char *) malloc(sizeof(char) * (this->size + 1)); // Incluido el \0
 
 	if (this->sequence == NULL)	return NULL;
 
-	memcpy(this->sequence, sequence, size);
+	memcpy(this->sequence, sequence, this->size);
+	this->sequence[this->size + 1] = '\0';
 
 	return this;
 }
@@ -43,9 +48,9 @@ int State_hashCode(State this) {
 char State_equals(void *this, void *other) {
 
 	// Reference equality
-	if (this == other) {
-		return 1;
-	}
+	if (this == other)	return 1;
+
+	if (this == NULL || other == NULL)	return 0;
 
 	State th = (State) this;
 	State ot = (State) other;
@@ -54,7 +59,8 @@ char State_equals(void *this, void *other) {
 		return 0;
 	}
 
-	if(th->size == ot->size && memcmp(th->sequence, ot->sequence, th->size) == 0) {
+	if(th->size == ot->size
+	&& memcmp(th->sequence, ot->sequence, th->size) == 0) {
 		return 1;
 	}
 
