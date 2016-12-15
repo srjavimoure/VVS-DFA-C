@@ -18,13 +18,20 @@ Symbol Symbol_newSymbol(char *sequence) {
 
 	if (this == NULL)	return NULL;
 
-	this->size = strlen(sequence) + 1;
-	this->sequence = (char *) malloc(sizeof(char) * (this->size + 1)); // Incluido el \0
+	this->size = strlen(sequence);
+
+	// Cadena vacía
+	if (this->size == 0) {
+		this->sequence = (char *) malloc(sizeof(char));
+		this->sequence[0] = '\0';
+	}
+	else {
+		this->sequence = (char *) malloc(sizeof(char) * this->size);
+	}
 
 	if (this->sequence == NULL)	return NULL;
 
 	memcpy(this->sequence, sequence, this->size);
-	this->sequence[this->size + 1] = '\0';
 
 	return this;
 }
@@ -71,4 +78,18 @@ char Symbol_equals(void *this, void *other) {
 char *Symbol_toString(Symbol this) {
 
 	return this->sequence;
+}
+
+void Symbol_destroy(Symbol *this) {
+
+	// Pasamos la referencia del objeto para poder asignarle NULL
+
+	if ((*this) == NULL)	return;
+
+	if ((*this)->sequence != NULL)	free((*this)->sequence);
+
+	free(*this);
+	
+	this = NULL;
+
 }

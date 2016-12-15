@@ -22,7 +22,7 @@ DFA DFAasString(char *string) {
 	while(string[i] != ';') {
 		if(string[i] == ' ') {
 			if (u != 0) {
-				buffer[u+1] = '\0';
+				buffer[u] = '\0';
 				GenList_add(states, State_newState(buffer));
 				u = 0;
 			}
@@ -35,7 +35,7 @@ DFA DFAasString(char *string) {
 	i++;
 
 	if (u != 0) {
-		buffer[u+1] = '\0';
+		buffer[u] = '\0';
 		GenList_add(states, State_newState(buffer));
 		u = 0;
 	}
@@ -45,7 +45,7 @@ DFA DFAasString(char *string) {
 	while(string[i] != ';') {
 		if(string[i] == ' ') {
 			if (u != 0) {
-				buffer[u+1] = '\0';
+				buffer[u] = '\0';
 				Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer));
 				u = 0;
 			}
@@ -58,7 +58,7 @@ DFA DFAasString(char *string) {
 	i++;
 
 	if (u != 0) {
-		buffer[u+1] = '\0';
+		buffer[u] = '\0';
 		Alphabet_addNewSymbol(alph, Symbol_newSymbol(buffer));
 		u = 0;
 	}
@@ -70,7 +70,7 @@ DFA DFAasString(char *string) {
 	}
 	i++;
 
-	buffer[u+1] = '\0';
+	buffer[u] = '\0';
 	State initial = State_newState(buffer);
 	u = 0;
 
@@ -80,7 +80,7 @@ DFA DFAasString(char *string) {
 		if(string[i] == ' ') {
 			if (u != 0)	{
 				GenList_add(final, State_newState(buffer));
-				buffer[u+1] = '\0';
+				buffer[u] = '\0';
 				u = 0;
 			}
 		}
@@ -92,7 +92,7 @@ DFA DFAasString(char *string) {
 	i++;
 
 	if (u != 0) {
-		buffer[u+1] = '\0';
+		buffer[u] = '\0';
 		GenList_add(final, State_newState(buffer));
 		u = 0;
 	}
@@ -111,7 +111,7 @@ DFA DFAasString(char *string) {
 			buffer[u++] = string[i];
 			i++;
 		}
-		buffer[u+1] = '\0';
+		buffer[u] = '\0';
 		begin = State_newState(buffer);
 		u = 0;
 		i++;
@@ -120,7 +120,7 @@ DFA DFAasString(char *string) {
 			buffer[u++] = string[i];
 			i++;
 		}
-		buffer[u+1] = '\0';
+		buffer[u] = '\0';
 		end = State_newState(buffer);
 		u = 0;
 		i++;
@@ -130,7 +130,7 @@ DFA DFAasString(char *string) {
 			i++;
 		}
 		
-		buffer[u+1] = '\0';
+		buffer[u] = '\0';
 		input = Symbol_newSymbol(buffer);
 		u = 0;
 		i++;
@@ -165,8 +165,6 @@ DFA DFAasFile(char *filename) {
 		}
 	}
 	string[i-1] = '\0';
-
-	printf("%s", string);
 
 	return DFAasString(string);
 }

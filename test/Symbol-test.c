@@ -45,6 +45,8 @@ void test_NewSymbolWithVoidSequence(void) {
 	CU_ASSERT_STRING_EQUAL(Symbol_getSymbol(s), "");
 	CU_ASSERT_EQUAL(strlen(Symbol_getSymbol(s)), 0);
 
+	Symbol_destroy(&s);
+
 }
 
 /*  C-SYM-NEW-03  */
@@ -58,9 +60,12 @@ QCC_TestStatus test_AnyStringSymbol(QCC_GenValue **vals, int len, QCC_Stamp **st
 		printf("\tErrored with string <%s> and size %d\n", sec, strlen(sec));
 		printf("\tstrcmp returns %d\n", strncmp(Symbol_getSymbol(s), sec, strlen(sec)));
 
+		Symbol_destroy(&s);
+
 		return QCC_FAIL;
 	}
 
+	Symbol_destroy(&s);
 	return QCC_OK;
 
 
@@ -79,7 +84,18 @@ QCC_TestStatus test_HashCodeWithEqualObjects(QCC_GenValue **vals, int len, QCC_S
 				 Symbol_getSymbol(s1), Symbol_getSymbol(s2), Symbol_hashCode(s1), Symbol_hashCode(s2));
 	}
 
-	return (Symbol_hashCode(s1) == Symbol_hashCode(s2))? QCC_OK : QCC_FAIL;
+	if (Symbol_hashCode(s1) == Symbol_hashCode(s2)) {
+
+		Symbol_destroy(&s1);
+		Symbol_destroy(&s2);
+		return QCC_OK;
+	}
+	else {
+
+		Symbol_destroy(&s1);
+		Symbol_destroy(&s2);
+		return QCC_FAIL;
+	}
 }
 
 /*  C-SYM-EQ-01  */
@@ -94,7 +110,16 @@ QCC_TestStatus test_EqualByReferenceObjects(QCC_GenValue **vals, int len, QCC_St
 		printf("\tErrored with s1 being %p and s2 being %p\n", s1, s2);
 	}
 
-	return (Symbol_equals(s1, s2))? QCC_OK : QCC_FAIL;
+	if (Symbol_equals(s1, s2)) {
+
+		Symbol_destroy(&s1);
+		return QCC_OK;
+	}
+	else {
+
+		Symbol_destroy(&s1);
+		return QCC_FAIL;
+	}
 }
 
 /*  C-SYM-EQ-02  */
@@ -109,7 +134,18 @@ QCC_TestStatus test_EqualByValueObjects(QCC_GenValue **vals, int len, QCC_Stamp 
 		printf("\tErrored with s1 <%s> and s2 <%s>\n", Symbol_getSymbol(s1), Symbol_getSymbol(s2));
 	}
 
-	return (Symbol_equals(s1, s2))? QCC_OK : QCC_FAIL;
+	if (Symbol_equals(s1, s2)) {
+
+		Symbol_destroy(&s1);
+		Symbol_destroy(&s2);
+		return QCC_OK;
+	}
+	else {
+
+		Symbol_destroy(&s1);
+		Symbol_destroy(&s2);
+		return QCC_FAIL;
+	}
 }
 
 /*  C-SYM-EQ-03  */
@@ -119,7 +155,8 @@ QCC_TestStatus test_InequalObjects(QCC_GenValue **vals, int len, QCC_Stamp **sta
 	char *sec2 = QCC_getValue(vals, 1, char *);
 
 	if (strcmp(sec1, sec2) == 0) {
-		return QCC_NOTHING;
+		// Modificamos manualmente una cadena si coincide que son la misma
+		sec1[0] +=1;
 	}
 
 	Symbol s1 = Symbol_newSymbol(sec1);
@@ -129,7 +166,18 @@ QCC_TestStatus test_InequalObjects(QCC_GenValue **vals, int len, QCC_Stamp **sta
 		printf("\tErrored with sec1 <%s> and sec2 <%s>\n", Symbol_getSymbol(s1), Symbol_getSymbol(s2));
 	}
 
-	return (Symbol_equals(s1, s2))? QCC_FAIL : QCC_OK;
+	if (Symbol_equals(s1, s2)) {
+
+		Symbol_destroy(&s1);
+		Symbol_destroy(&s2);
+		return QCC_FAIL;
+	}
+	else {
+
+		Symbol_destroy(&s1);
+		Symbol_destroy(&s2);
+		return QCC_OK;
+	}
 }
 
 /*  C-SYM-EQ-04  */
@@ -139,6 +187,8 @@ void test_EqualToNullObject(void) {
 
 	CU_ASSERT_FALSE(Symbol_equals(s, NULL));
 	CU_ASSERT_FALSE(Symbol_equals(NULL, s));
+
+	Symbol_destroy(&s);
 }
 
 /*  C-SYM-STR-01  */
@@ -150,6 +200,8 @@ void test_ToString(void) {
 
 	CU_ASSERT_PTR_NOT_EQUAL(sec, Symbol_getSymbol(s));
 	CU_ASSERT_PTR_EQUAL(Symbol_getSymbol(s), Symbol_toString(s));
+
+	Symbol_destroy(&s);
 }
 
 /*
@@ -200,15 +252,15 @@ int main()
 		   "\t\t*************************************\n\n");
 
 	printf("C-SYM-NEW-03:\t");
-	QCC_testForAll(50, 1, test_AnyStringSymbol, 1, QCC_genString);
+	QCC_testForAll(1000, 1, test_AnyStringSymbol, 1, QCC_genString);
 	printf("C-SYM-HASH-01:\t");
-	QCC_testForAll(50, 1, test_HashCodeWithEqualObjects, 1, QCC_genString);
+	QCC_testForAll(1000, 1, test_HashCodeWithEqualObjects, 1, QCC_genString);
 	printf("C-SYM-EQ-01:\t");
-	QCC_testForAll(50, 1, test_EqualByReferenceObjects, 1, QCC_genString);
+	QCC_testForAll(1000, 1, test_EqualByReferenceObjects, 1, QCC_genString);
 	printf("C-SYM-EQ-02:\t");
-	QCC_testForAll(50, 1, test_EqualByValueObjects, 1, QCC_genString);
+	QCC_testForAll(1000, 1, test_EqualByValueObjects, 1, QCC_genString);
 	printf("C-SYM-EQ-03:\t");
-	QCC_testForAll(50, 1, test_InequalObjects, 2, QCC_genString, QCC_genString);
+	QCC_testForAll(1000, 1, test_InequalObjects, 2, QCC_genString, QCC_genString);
 
 	printf("\n\nEND SYMBOL MODULE'S UNIT TESTING\n");
 

@@ -118,6 +118,11 @@ QCC_TestStatus test_InequalObjects(QCC_GenValue **vals, int len, QCC_Stamp **sta
 	char *sec1 = QCC_getValue(vals, 0, char *);
 	char *sec2 = QCC_getValue(vals, 1, char *);
 
+	if (strcmp(sec1, sec2) == 0) {
+		// Modificamos manualmente una cadena si coincide que son la misma
+		sec1[0] +=1;
+	}
+
 	State s1 = State_newState(sec1);
 	State s2 = State_newState(sec2); 
 
@@ -196,15 +201,15 @@ int main()
 		   "\t\t*************************************\n\n");
 
 	printf("C-ST-NEW-03:\t");
-	QCC_testForAll(100, 1, test_AnyStringState, 1, QCC_genString);
+	QCC_testForAll(1000, 1, test_AnyStringState, 1, QCC_genString);
 	printf("C-ST-HASH-01:\t");
-	QCC_testForAll(100, 1, test_HashCodeWithEqualObjects, 1, QCC_genString);
+	QCC_testForAll(1000, 1, test_HashCodeWithEqualObjects, 1, QCC_genString);
 	printf("C-ST-EQ-01:\t");
-	QCC_testForAll(100, 1, test_EqualByReferenceObjects, 1, QCC_genString);
+	QCC_testForAll(1000, 1, test_EqualByReferenceObjects, 1, QCC_genString);
 	printf("C-ST-EQ-02:\t");
-	QCC_testForAll(100, 1, test_EqualByValueObjects, 1, QCC_genString);
+	QCC_testForAll(1000, 1, test_EqualByValueObjects, 1, QCC_genString);
 	printf("C-ST-EQ-03:\t");
-	QCC_testForAll(100, 1, test_InequalObjects, 2, QCC_genString, QCC_genString);
+	QCC_testForAll(1000, 1, test_InequalObjects, 2, QCC_genString, QCC_genString);
 
 	printf("\n\nEND STATE MODULE'S UNIT TESTING\n");
 

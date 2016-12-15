@@ -39,3 +39,8 @@ extern char Symbol_equals(void *this, void *other);
  * Returns the String representation of this object
  */
 extern char *Symbol_toString(Symbol this);
+
+/**
+ * Frees the memory used by this Symbol and sets the pointer to null
+ */
+extern void Symbol_destroy(Symbol *this);
