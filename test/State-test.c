@@ -45,6 +45,8 @@ void test_NewStateWithVoidSequence(void) {
 	CU_ASSERT_STRING_EQUAL(State_getState(s), "");
 	CU_ASSERT_EQUAL(strlen(State_getState(s)), 0);
 
+	State_destroy(&s);
+
 }
 
 /*  C-ST-NEW-03  */
@@ -58,8 +60,12 @@ QCC_TestStatus test_AnyStringState(QCC_GenValue **vals, int len, QCC_Stamp **sta
 		printf("\tErrored with string <%s> and size %d\n", sec, strlen(sec));
 		printf("\tstrcmp returns %d\n", strncmp(State_getState(s), sec, strlen(sec)));
 
+		State_destroy(&s);
+
 		return QCC_FAIL;
 	}
+
+	State_destroy(&s);
 
 	return QCC_OK;
 
@@ -79,7 +85,18 @@ QCC_TestStatus test_HashCodeWithEqualObjects(QCC_GenValue **vals, int len, QCC_S
 				 State_getState(s1), State_getState(s2), State_hashCode(s1), State_hashCode(s2));
 	}
 
-	return (State_hashCode(s1) == State_hashCode(s2))? QCC_OK : QCC_FAIL;
+	if (State_hashCode(s1) == State_hashCode(s2)) {
+
+		State_destroy(&s1);
+		State_destroy(&s2);
+		return QCC_OK;
+	}
+	else {
+
+		State_destroy(&s1);
+		State_destroy(&s2);
+		return QCC_FAIL;
+	}
 }
 
 /*  C-ST-EQ-01  */
@@ -94,7 +111,16 @@ QCC_TestStatus test_EqualByReferenceObjects(QCC_GenValue **vals, int len, QCC_St
 		printf("\tErrored with s1 being %p and s2 being %p\n", s1, s2);
 	}
 
-	return (State_equals(s1, s2))? QCC_OK : QCC_FAIL;
+	if (State_equals(s1, s2)) {
+
+		State_destroy(&s1);
+		return QCC_OK;
+	}
+	else {
+
+		State_destroy(&s1);
+		return QCC_FAIL;
+	}
 }
 
 /*  C-ST-EQ-02  */
@@ -109,7 +135,18 @@ QCC_TestStatus test_EqualByValueObjects(QCC_GenValue **vals, int len, QCC_Stamp 
 		printf("\tErrored with s1 <%s> and s2 <%s>\n", State_getState(s1), State_getState(s2));
 	}
 
-	return (State_equals(s1, s2))? QCC_OK : QCC_FAIL;
+	if (State_equals(s1, s2)) {
+
+		State_destroy(&s1);
+		State_destroy(&s2);
+		return QCC_OK;
+	}
+	else {
+
+		State_destroy(&s1);
+		State_destroy(&s2);
+		return QCC_FAIL;
+	}
 }
 
 /*  C-ST-EQ-03  */
@@ -130,7 +167,18 @@ QCC_TestStatus test_InequalObjects(QCC_GenValue **vals, int len, QCC_Stamp **sta
 		printf("\tErrored with sec1 <%s> and sec2 <%s>\n", State_getState(s1), State_getState(s2));
 	}
 
-	return (State_equals(s1, s2))? QCC_FAIL : QCC_OK;
+	if (State_equals(s1, s2)) {
+
+		State_destroy(&s1);
+		State_destroy(&s2);
+		return QCC_FAIL;
+	}
+	else {
+
+		State_destroy(&s1);
+		State_destroy(&s2);
+		return QCC_OK;
+	}
 }
 
 /*  C-ST-EQ-04  */
@@ -140,6 +188,8 @@ void test_EqualToNullObject(void) {
 
 	CU_ASSERT_FALSE(State_equals(s, NULL));
 	CU_ASSERT_FALSE(State_equals(NULL, s));
+
+	State_destroy(&s);
 }
 
 /*  C-ST-STR-01  */
@@ -151,6 +201,8 @@ void test_ToString(void) {
 
 	CU_ASSERT_PTR_NOT_EQUAL(sec, State_getState(s));
 	CU_ASSERT_PTR_EQUAL(State_getState(s), State_toString(s));
+
+	State_destroy(&s);
 }
 
 /*

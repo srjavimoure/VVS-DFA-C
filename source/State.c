@@ -78,3 +78,17 @@ char *State_toString(void *this) {
 
 	return ((State) this)->sequence;
 }
+
+void State_destroy(State *this) {
+
+	// Pasamos la referencia del objeto para poder asignarle NULL
+
+	if ((*this) == NULL)	return;
+
+	if ((*this)->sequence != NULL)	free((*this)->sequence);
+
+	free(*this);
+	
+	this = NULL;
+
+}
