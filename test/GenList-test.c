@@ -31,7 +31,7 @@ QCC_GenValue *QCC_genNegativeInt(void) {
 /*  C-GLIST-NEW-01  */
 QCC_TestStatus test_NewGenListNegBuffer(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
-    int buf = QCC_getValue(vals, 0, int);
+    int buf = *QCC_getValue(vals, 0, int *);
 
 	GenList g = GenList_newGenList(buf);
 
