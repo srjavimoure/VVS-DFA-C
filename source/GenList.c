@@ -34,15 +34,21 @@ GenList GenList_newGenList(int buffer) {
 
 int GenList_getBuffer(GenList this) {
 
+	if (this == NULL)	return -1;
+
 	return this->buffer;
 }
 
 int GenList_getSize(GenList this) {
 
+	if (this == NULL)	return -1;
+
 	return this->size;
 }
 
 void GenList_add(GenList this, void *element) {
+
+	if (this == NULL || element == NULL)	return;
 
 	// Inserting the element goes FIRST to adding to the size
 	this->list[this->size++] = element;
@@ -56,6 +62,8 @@ void GenList_add(GenList this, void *element) {
 }
 
 void GenList_remove(GenList this, int position) {
+
+	if (this == NULL)	return;
 
 	// Index out of bounds
 	if (position < 0 || position > this->size)	return;
@@ -83,6 +91,8 @@ void GenList_remove(GenList this, int position) {
 
 void *GenList_getElement(GenList this, int position) {
 
+	if (this == NULL)	return NULL;
+
 	// Index out of bounds
 	if (position < 0 || position > this->size)	return NULL;
 
@@ -91,10 +101,14 @@ void *GenList_getElement(GenList this, int position) {
 
 void *GenList_getArray(GenList this) {
 
+	if (this == NULL)	return NULL;
+
 	return this->list;
 }
 
 void *GenList_getExistingObject(GenList this, void *element, char (*function)(void *a, void *b)) {
+
+	if (this == NULL || element == NULL || function == NULL)	return NULL;
 
 	int i = 0;
 	for (i = 0; i < this->size; i++) {
@@ -108,6 +122,8 @@ void *GenList_getExistingObject(GenList this, void *element, char (*function)(vo
 
 void GenList_clearNulls(GenList this) {
 
+	if (this == NULL)	return;
+
 	if (this->realSize > this->size) {
 
 		this->list = realloc(this->list, sizeof(void *) * this->size);
@@ -117,6 +133,8 @@ void GenList_clearNulls(GenList this) {
 }
 
 char *GenList_toString(GenList this, char *(*toString)(void *element)) {
+
+	if (this == NULL || toString == NULL)	return NULL;
 
 	char *string = (char *) malloc(sizeof(char) * 100);
 

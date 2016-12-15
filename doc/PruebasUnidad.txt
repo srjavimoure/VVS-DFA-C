@@ -181,57 +181,96 @@ SALIDA ESPERADA: buffer es el indicado y size es 0
 
 -----------------------------------------------------------------
 
-ID: C-GLIST-ADD-01
-FUNCIÓN: add
+ID: C-GLIST-GBUF-01
+FUnCIÓN: getBuffer
 TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista con num_elementos == buffer
-	elemento válido
-SALIDA ESPERADA: lista con num_elementos + 1 y aumentado en tamaño
+	this -> NULL
+SALIDA ESPERADA: -1
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-GSIZ-01
+FUnCIÓN: getSize
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+SALIDA ESPERADA: -1
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-ADD-01
+FUnCIÓN: add
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+	element -> irrelevante
+SALIDA ESPERADA: El programa no casca
 
 -----------------------------------------------------------------
 
 ID: C-GLIST-ADD-02
-FUNCIÓN: add
-TIPO: Particiones equivalentes
+FUnCIÓN: add
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista con num_elementos < buffer
-	elemento válido
-SALIDA ESPERADA: lista con num_elementos + 1 y elemento añadido
+	this -> irrelevante
+	element -> NULL
+SALIDA ESPERADA: El programa no casca
 
 -----------------------------------------------------------------
 
 ID: C-GLIST-ADD-03
 FUNCIÓN: add
 TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this -> NULL
-	elemento válido
-SALIDA ESPERADA: la aplicación no crashea
+	this -> lista con num_elementos == buffer
+	elemento -> válido
+SALIDA ESPERADA: lista con num_elementos + 1 y aumentado en tamaño
 
 -----------------------------------------------------------------
 
 ID: C-GLIST-ADD-04
 FUNCIÓN: add
-TIPO: Valores frontera en entrada
+TIPO: Particiones equivalentes
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista válida
+	this -> lista con num_elementos < buffer
+	elemento -> válido
+SALIDA ESPERADA: lista con num_elementos + 1, elemento añadido y size + 1
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-ADD-05
+FUNCIÓN: add
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> lista válida
 	elemento -> NULL
-SALIDA ESPERADA: la misma lista que entró
+SALIDA ESPERADA: la misma lista que entró, la aplicación no crashea
 
 -----------------------------------------------------------------
 
 ID: C-GLIST-REM-01
 FUNCIÓN: remove
 TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista válida
-	posición no válida (negativa o mayor que this->size)
+	this -> NULL 
+	posición -> irrelevante
 SALIDA ESPERADA: la aplicación no crashea
 
 -----------------------------------------------------------------
@@ -239,10 +278,11 @@ SALIDA ESPERADA: la aplicación no crashea
 ID: C-GLIST-REM-02
 FUNCIÓN: remove
 TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this -> NULL
-	posición -> irrelevante
+	this -> lista válida
+	posición -> no válida (menor que 0 o mayor que size)
 SALIDA ESPERADA: la aplicación no crashea
 
 -----------------------------------------------------------------
@@ -250,6 +290,7 @@ SALIDA ESPERADA: la aplicación no crashea
 ID: C-GLIST-REM-03
 FUNCIÓN: remove
 TIPO: Particiones equivalentes
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this es lista válida
@@ -261,33 +302,59 @@ SALIDA ESPERADA: la lista sin el elemento correspondiente
 ID: C-GLIST-ELEM-01
 FUNCIÓN: getElement
 TIPO: Valores frontera en entrada
+HERRAMINTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista válida
-	posición no válida (negativa o mayor que this->size)
+	this -> NULL
+	posición -> irrelevante
 SALIDA ESPERADA: la aplicación no crashea
 
 -----------------------------------------------------------------
 
 ID: C-GLIST-ELEM-02
 FUNCIÓN: getElement
-TIPO: Particiones equivalentes
+TIPO: Valores frontera en entrada
+HERRAMINTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista válida
-	posición válida
+	this -> lista válida
+	posición -> no válida (menor que 0 o mayor que tamaño)
+SALIDA ESPERADA: la aplicación no crashea
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-ELEM-03
+FUNCIÓN: getElement
+TIPO: Particiones equivalentes
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> lista válida
+	posición -> válida
 SALIDA ESPERADA: el elemento en la posición indicada
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-GAR-01
+FUNCIÓN: getArray
+TIPO: Valores de frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
 ID: C-GLIST-EXOB-01
 FUNCIÓN: getExistingObject
 TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this -> NULL
-	elemento cualquiera
-	función cualquiera
+	elemento -> irrelevante
+	función -> irrelevante
 SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
@@ -295,11 +362,12 @@ SALIDA ESPERADA: NULL
 ID: C-GLIST-EXOB-02
 FUNCIÓN: getExistingObject
 TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista válida
+	this -> irrelevante
 	elemento -> NULL
-	función cualquiera
+	función -> irrelevante
 SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
@@ -307,10 +375,11 @@ SALIDA ESPERADA: NULL
 ID: C-GLIST-EXOB-03
 FUNCIÓN: getExistingObject
 TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista válida
-	elemento válido
+	this -> irrelevante
+	elemento -> irrelevante
 	función -> NULL
 SALIDA ESPERADA: NULL
 
@@ -319,11 +388,12 @@ SALIDA ESPERADA: NULL
 ID: C-GLIST-EXOB-04
 FUNCIÓN: getExistingObject
 TIPO: Particiones equivalentes
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista válida
-	elemento válido, no se encuentra en la lista
-	función válida
+	this -> lista válida
+	elemento -> válido, no se encuentra en la lista
+	función -> válida
 SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
@@ -331,12 +401,48 @@ SALIDA ESPERADA: NULL
 ID: C-GLIST-EXOB-05
 FUNCIÓN: getExistingObject
 TIPO: Particiones equivalentes
+HERRAMIENTA: CUnit
 CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
-	this es lista válida
-	elemento válido, presente en la lista
-	función válida
+	this -> lista válida
+	elemento -> válido, presente en la lista
+	función -> válida
 SALIDA ESPERADA: el elemento
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-NULL-01
+FUNCIÓN: clearNulls
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-STR-01
+FUNCIÓN: toString
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+	toString -> irrelevante
+SALIDA ESPERADA: NULL
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-STR-01
+FUNCIÓN: toString
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> NULL
+	toString -> irrelevante
+SALIDA ESPERADA: NULL
 
 *****************************************************************
 
