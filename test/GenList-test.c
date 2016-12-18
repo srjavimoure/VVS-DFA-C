@@ -34,6 +34,22 @@ QCC_GenValue *QCC_genPositiveInt(void) {
 	return QCC_genIntR(1, 50);
 }
 
+/*
+	Función de búsqueda para las pruebas
+ */
+char fun(void *a, void *b) {
+	int *c = (int *) a;
+	int *d = (int *) b;
+	return (*c == *d);
+}
+
+/*
+	Función de paso a string para las pruebas
+ */
+char *str(void *element) {
+	return ((char *) element);
+}
+
 /*  C-GLIST-NEW-01  */
 QCC_TestStatus test_NewGenListNegBuffer(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
 
@@ -106,7 +122,7 @@ void test_AddFromNull(void) {
 	GenList_add(NULL, &a);
 
 	// Si llega aquí es que no ha crasheado
-	CU_PASS("No crashea con this == null");
+	CU_PASS("Failed with null list");
 
 }
 
@@ -116,17 +132,11 @@ void test_AddNull(void) {
 	GenList_add(GenList_newGenList(3), NULL);
 
 	// Si llega aquí es que no ha crasheado
-	CU_PASS("No crashea con element == null");
+	CU_PASS("Failed with null element");
 
 }
 
 /*  C-GLIST-ADD-03  */
-char fun(void *a, void *b) {
-	int *c = (int *) a;
-	int *d = (int *) b;
-	return (*c == *d);
-}
-
 void test_AddToFullBuffer(void) {
 
 	GenList g = GenList_newGenList(3);
@@ -147,7 +157,7 @@ void test_AddToFullBuffer(void) {
 }
 
 /* C-GLIST-ADD-04  */
-void test_AddWithSpace(void){
+void test_AddWithSpace(void) {
 
 	GenList g = GenList_newGenList(3);
 	int a = 2, b = -1;
@@ -162,6 +172,144 @@ void test_AddWithSpace(void){
 	CU_ASSERT_TRUE(GenList_getSize(g) == old_size + 1);
 	CU_ASSERT_TRUE(GenList_getExistingObject(g, &b, fun) == &b);
 
+}
+
+/*  C-GLIST-REM-01  */
+void test_RemoveFromNull(void) {
+
+	GenList_remove(NULL, 2);
+
+	// Si llega aquí es que no ha crasheado
+	CU_PASS("Failed with null list");
+}
+
+/*  C-GLIST-REM-02  */
+void test_RemoveOutofBounds(void) {
+
+	GenList g = GenList_newGenList(3);
+	GenList_remove(g, -5);
+
+	// Si llega aquí es que no ha crasheado
+	CU_PASS("Failed with negative position");
+	
+	GenList_remove(g, 15);
+
+	// Si llega aquí es que no ha crasheado
+	CU_PASS("Failed with out of bounds position");
+}
+
+/*  C-GLIST-REM-03  */
+void test_RemoveExistingElement(void) {
+
+	GenList g = GenList_newGenList(3);
+	int a = 1, b = 2, c = 4;
+	GenList_add(g, &a);
+	GenList_add(g, &b);
+	GenList_add(g, &c);
+	
+	CU_ASSERT_PTR_NOT_NULL(GenList_getExistingObject(g, &a, fun));
+	
+	GenList_remove(g, 0);
+	
+	CU_ASSERT_PTR_NULL(GenList_getExistingObject(g, &a, fun));
+
+}
+
+/*  C-GLIST-ELEM-01  */
+void test_GetElementFromNull(void) {
+
+	CU_ASSERT_PTR_NULL(GenList_getElement(NULL, 2));
+}
+
+/*  C-GLIST-ELEM-02  */
+void test_GetElementFromOutofBounds(void) {
+
+	GenList g = GenList_newGenList(3);
+
+	CU_ASSERT_PTR_NULL(GenList_getElement(g, -5));
+	CU_ASSERT_PTR_NULL(GenList_getElement(g, 15));
+}
+
+/*  C-GLIST-ELEM-03  */
+void test_GetExistingElement(void) {
+
+	GenList g = GenList_newGenList(3);
+	int a = 2;
+	GenList_add(g, &a);
+	
+	CU_ASSERT_PTR_NOT_NULL(GenList_getElement(g, 0));
+	CU_ASSERT_PTR_EQUAL(GenList_getElement(g, 0), &a);
+}
+
+/*  C-GLIST-EXOB-01  */
+void test_GExObFromNull(void) {
+
+	int a = 4;
+	CU_ASSERT_PTR_NULL(GenList_getExistingObject(NULL, &a, fun));
+
+}
+
+/*  C-GLIST-EXOB-02  */
+void test_GExObNull(void) {
+
+	GenList g = GenList_newGenList(3);
+	CU_ASSERT_PTR_NULL(GenList_getExistingObject(g, NULL, fun));
+
+}
+
+/*  C-GLIST-EXOB-03  */
+void test_GExObFunctionNull(void) {
+
+	GenList g = GenList_newGenList(3);
+	int a = 4;
+	GenList_add(g, &a);
+	CU_ASSERT_PTR_NULL(GenList_getExistingObject(g, &a, NULL));
+
+}
+
+/*  C-GLIST-EXOB-04  */
+void test_GExObNotExisting(void) {
+
+	GenList g = GenList_newGenList(3);
+	int a = 4;
+	
+	CU_ASSERT_PTR_NULL(GenList_getExistingObject(g, &a, fun));
+}
+
+/*  C-GLIST-EXOB-05  */
+void test_GExObExisting(void) {
+
+	GenList g = GenList_newGenList(3);
+	int a = 4;
+	GenList_add(g, &a);
+	
+	CU_ASSERT_PTR_NOT_NULL(GenList_getExistingObject(g, &a, fun));
+	CU_ASSERT_PTR_EQUAL(GenList_getExistingObject(g, &a, fun), &a);
+}
+
+/*  C-GLIST-STR-01  */
+void test_ToStringFromNull(void) {
+
+	CU_ASSERT_PTR_NULL(GenList_toString(NULL, str));
+}
+
+/*  C-GLIST-STR-02  */
+void test_ToStringFunctionNull(void) {
+
+	GenList g = GenList_newGenList(3);
+
+	CU_ASSERT_PTR_NULL(GenList_toString(g, NULL));
+}
+
+/*  C-GLIST-STR-03  */
+void test_ToStringNormal(void) {
+
+	GenList g = GenList_newGenList(3);
+	char a[] = "a";
+	GenList_add(g, &a);
+	char *r = GenList_toString(g, str);
+
+	CU_ASSERT_STRING_EQUAL(r, r);
 }
 
 /*
@@ -195,7 +343,21 @@ int main()
 	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-01", test_AddFromNull)
 	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-02", test_AddNull)
 	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-03", test_AddToFullBuffer)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-04", test_AddWithSpace))
+	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-04", test_AddWithSpace)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-REM-01", test_RemoveFromNull)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-REM-02", test_RemoveOutofBounds)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-REM-03", test_RemoveExistingElement)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-ELEM-01", test_GetElementFromNull)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-ELEM-02", test_GetElementFromOutofBounds)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-ELEM-03", test_GetExistingElement)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-01", test_GExObFromNull)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-02", test_GExObNull)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-03", test_GExObFunctionNull)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-04", test_GExObNotExisting)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-05", test_GExObExisting)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-STR-01", test_ToStringFromNull)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-STR-02", test_ToStringFunctionNull)
+	||  NULL == CU_add_test(pSuite, "C-GLIST-STR-02", test_ToStringNormal))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

@@ -77,11 +77,7 @@ void GenList_remove(GenList this, int position) {
 	this->size--;
 
 	// Free excess of space
-	if (this->size == 0) {
-		this->realSize = this->buffer;
-		this->list = realloc(this->list, this->realSize);
-	}
-	else if (this->realSize > this->size + this->buffer) {
+	if (this->realSize > this->size + this->buffer) {
 		this->realSize = this->size + this->buffer;
 		this->list = realloc(this->list, this->realSize);
 	}
@@ -99,13 +95,6 @@ void *GenList_getElement(GenList this, int position) {
 	return this->list[position];
 }
 
-void *GenList_getArray(GenList this) {
-
-	if (this == NULL)	return NULL;
-
-	return this->list;
-}
-
 void *GenList_getExistingObject(GenList this, void *element, char (*function)(void *a, void *b)) {
 
 	if (this == NULL || element == NULL || function == NULL)	return NULL;
@@ -118,18 +107,6 @@ void *GenList_getExistingObject(GenList this, void *element, char (*function)(vo
 	}
 
 	return NULL;
-}
-
-void GenList_clearNulls(GenList this) {
-
-	if (this == NULL)	return;
-
-	if (this->realSize > this->size) {
-
-		this->list = realloc(this->list, sizeof(void *) * this->size);
-	}
-
-	return;
 }
 
 char *GenList_toString(GenList this, char *(*toString)(void *element)) {

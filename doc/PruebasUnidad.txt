@@ -295,7 +295,7 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this -> NULL
 	posición -> irrelevante
-SALIDA ESPERADA: la aplicación no crashea
+SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
@@ -307,7 +307,7 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this -> lista válida
 	posición -> no válida (menor que 0 o mayor que tamaño)
-SALIDA ESPERADA: la aplicación no crashea
+SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
@@ -319,18 +319,7 @@ CONTEXTO: n/a
 ENTRADA PROPORCIONADA:
 	this -> lista válida
 	posición -> válida
-SALIDA ESPERADA: el elemento en la posición indicada
-
------------------------------------------------------------------
-
-ID: C-GLIST-GAR-01
-FUNCIÓN: getArray
-TIPO: Valores de frontera en entrada
-HERRAMIENTA: CUnit
-CONTEXTO: n/a
-ENTRADA PROPORCIONADA:
-	this -> NULL
-SALIDA ESPERADA: NULL
+SALIDA ESPERADA: El elemento de la lista
 
 -----------------------------------------------------------------
 
@@ -399,17 +388,6 @@ SALIDA ESPERADA: el elemento
 
 -----------------------------------------------------------------
 
-ID: C-GLIST-NULL-01
-FUNCIÓN: clearNulls
-TIPO: Valores frontera en entrada
-HERRAMIENTA: CUnit
-CONTEXTO: n/a
-ENTRADA PROPORCIONADA:
-	this -> NULL
-SALIDA ESPERADA: NULL
-
------------------------------------------------------------------
-
 ID: C-GLIST-STR-01
 FUNCIÓN: toString
 TIPO: Valores frontera en entrada
@@ -422,7 +400,19 @@ SALIDA ESPERADA: NULL
 
 -----------------------------------------------------------------
 
-ID: C-GLIST-STR-01
+ID: C-GLIST-STR-03
+FUNCIÓN: toString
+TIPO: Valores frontera en entrada
+HERRAMIENTA: CUnit
+CONTEXTO: n/a
+ENTRADA PROPORCIONADA:
+	this -> lista normal
+	toString -> funcion normal
+SALIDA ESPERADA: La representación correcta
+
+-----------------------------------------------------------------
+
+ID: C-GLIST-STR-02
 FUNCIÓN: toString
 TIPO: Valores frontera en entrada
 HERRAMIENTA: CUnit
