@@ -1,0 +1,2 @@
+:cmock:
+  :treat_externs: :include
