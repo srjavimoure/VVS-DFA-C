@@ -1,38 +1,13 @@
+#include <string.h>
 #include "../include/GenList.h"
-#include <CUnit/CUnit.h>
-#include <CUnit/Basic.h>
-// Generación de datos aleatoria
-#include "quickcheck4c.h"
+#include "unity.h"
+#include "unity_fixture.h"
 
-/*
-  Función de inicialización de las pruebas.
- */
-int init_suiteGenList(void)
-{
-	return 0;
-}
+TEST_GROUP(GenList);
 
-/*
-  Función de finalización de las pruebas.
- */
-int clean_suiteGenList(void)
-{
-	return 0;
-}
+TEST_SETUP(GenList) {}
 
-/*
-	Generador de numeros negativos
- */
-QCC_GenValue *QCC_genNegativeInt(void) {
-	return QCC_genIntR(-50, -1);
-}
-
-/*
-	Generador de numeros positivos
- */
-QCC_GenValue *QCC_genPositiveInt(void) {
-	return QCC_genIntR(1, 50);
-}
+TEST_TEAR_DOWN(GenList) {}
 
 /*
 	Función de búsqueda para las pruebas
@@ -50,337 +25,239 @@ char *str(void *element) {
 	return ((char *) element);
 }
 
-/*  C-GLIST-NEW-01  */
-QCC_TestStatus test_NewGenListNegBuffer(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
-
-    int buf = *QCC_getValue(vals, 0, int *);
-
-	GenList g = GenList_newGenList(buf);
-
-	if (GenList_getBuffer(g) == 5 && GenList_getSize(g) == 0) {
-
-		return QCC_OK;
-	}
-	else {
-
-		printf("Failed with buffer %d (real buffer %d)\n",
-				buf, GenList_getBuffer(g));
-
-		return QCC_FAIL;
-	}
-
-}
-
 /*  C-GLIST-NEW-02  */
-void test_NewGenListZeroBuffer(void) {
+TEST(GenList, test_NewGenListZeroBuffer)
+{
 
 	GenList g = GenList_newGenList(0);
 
-	CU_ASSERT_PTR_NOT_NULL(g);
-	CU_ASSERT_EQUAL(GenList_getSize(g), 0);
-	CU_ASSERT_EQUAL(GenList_getBuffer(g), 5);
-
-}
-
-/*  C-GLIST-NEW-03  */
-QCC_TestStatus test_NewGenListPosBuffer(QCC_GenValue **vals, int len, QCC_Stamp **stamp) {
-
-    int buf = *QCC_getValue(vals, 0, int *);
-
-	GenList g = GenList_newGenList(buf);
-
-	if (GenList_getBuffer(g) == buf && GenList_getSize(g) == 0) {
-
-		return QCC_OK;
-	}
-	else {
-
-		printf("Failed with buffer %d (real buffer %d)\n",
-				buf, GenList_getBuffer(g));
-
-		return QCC_FAIL;
-	}
-
+	TEST_ASSERT_NOT_NULL_MESSAGE(g,
+		"C-GLIST-NEW-02: GenList is null");
+	TEST_ASSERT_EQUAL_INT_MESSAGE(GenList_getSize(g), 0,
+		"C-GLIST-NEW-02: GenList size is not zero");
+	TEST_ASSERT_EQUAL_INT_MESSAGE(GenList_getBuffer(g), 5,
+		"C-GLIST-NEW-02: GenList buffer is not the default BUFSIZE");
 }
 
 /*  C-GLIST-GBUF-01  */
-void test_GetBufferFromNull(void) {
-
-	CU_ASSERT_EQUAL(GenList_getBuffer(NULL), -1);
+TEST(GenList, test_GetBufferFromNull)
+{
+	TEST_ASSERT_EQUAL_INT_MESSAGE(GenList_getBuffer(NULL), -1,
+		"C-GLIST-GBUF-01: Buffer is not -1");
 }
 
 /*  C-GLIST-GSIZ-01  */
-void test_GetSizeFromNull(void) {
-
-	CU_ASSERT_EQUAL(GenList_getSize(NULL), -1);
+TEST(GenList, test_GetSizeFromNull)
+{
+	TEST_ASSERT_EQUAL_INT_MESSAGE(GenList_getSize(NULL), -1,
+		"C-GLIST-GSIZ-01: Size is not -1");
 }
 
 /*  C-GLIST-ADD-01  */
-void test_AddFromNull(void) {
-
+TEST(GenList, test_AddFromNull)
+{
 	int a = 4;
 	GenList_add(NULL, &a);
 
 	// Si llega aquí es que no ha crasheado
-	CU_PASS("Failed with null list");
-
+	TEST_ASSERT_TRUE_MESSAGE(1, "C-GLIST-ADD-01: Failed with null list");
 }
 
 /*  C-GLIST-ADD-02  */
-void test_AddNull(void) {
-
+TEST(GenList, test_AddNull)
+{
 	GenList_add(GenList_newGenList(3), NULL);
 
 	// Si llega aquí es que no ha crasheado
-	CU_PASS("Failed with null element");
-
+	TEST_ASSERT_TRUE_MESSAGE(1, "C-GLIST-ADD-02: Failed with null element");
 }
 
 /*  C-GLIST-ADD-03  */
-void test_AddToFullBuffer(void) {
-
+TEST(GenList, test_AddToFullBuffer)
+{
 	GenList g = GenList_newGenList(3);
 	int a = 2, b = 1, c = 4, d = -1;
 	GenList_add(g, &a);
 	GenList_add(g, &b);
 	GenList_add(g, &c);
 
-	CU_ASSERT_EQUAL(GenList_getSize(g), GenList_getBuffer(g));
+	TEST_ASSERT_EQUAL_INT_MESSAGE(GenList_getSize(g), GenList_getBuffer(g),
+		"C-GLIST-ADD-03: Size and buffer are not equal");
 
 	int old_size = GenList_getSize(g);
 
 	GenList_add(g, &d);
 
-	CU_ASSERT_TRUE(GenList_getSize(g) == old_size + 1);
-	CU_ASSERT_TRUE(GenList_getExistingObject(g, &d, fun) == &d);
-
+	TEST_ASSERT_TRUE_MESSAGE(GenList_getSize(g) == old_size + 1,
+		"C-GLIST-ADD-03: Size did not get up");
+	TEST_ASSERT_TRUE_MESSAGE(GenList_getExistingObject(g, &d, fun) == &d,
+		"C-GLIST-ADD-03: Element did not get added");
 }
 
 /* C-GLIST-ADD-04  */
-void test_AddWithSpace(void) {
-
+TEST(GenList, test_AddWithSpace)
+{
 	GenList g = GenList_newGenList(3);
 	int a = 2, b = -1;
 	GenList_add(g, &a);
 
-	CU_ASSERT_TRUE(GenList_getSize(g) < GenList_getBuffer(g));
+	TEST_ASSERT_TRUE_MESSAGE(GenList_getSize(g) < GenList_getBuffer(g),
+		"C-GLIST-ADD-04: Size is not less than buffer");
 
 	int old_size = GenList_getSize(g);
 
 	GenList_add(g, &b);
 
-	CU_ASSERT_TRUE(GenList_getSize(g) == old_size + 1);
-	CU_ASSERT_TRUE(GenList_getExistingObject(g, &b, fun) == &b);
-
+	TEST_ASSERT_TRUE_MESSAGE(GenList_getSize(g) == old_size + 1,
+		"C-GLIST-ADD-04: Size did not get up");
+	TEST_ASSERT_TRUE_MESSAGE(GenList_getExistingObject(g, &b, fun) == &b,
+		"C-GLIST-ADD-03: Element did not get added");
 }
 
 /*  C-GLIST-REM-01  */
-void test_RemoveFromNull(void) {
-
+TEST(GenList, test_RemoveFromNull)
+{
 	GenList_remove(NULL, 2);
 
 	// Si llega aquí es que no ha crasheado
-	CU_PASS("Failed with null list");
+	TEST_ASSERT_TRUE_MESSAGE(1, "C-GLIST-REM-01: Failed with null list");
 }
 
 /*  C-GLIST-REM-02  */
-void test_RemoveOutofBounds(void) {
-
+TEST(GenList, test_RemoveOutofBounds)
+{
 	GenList g = GenList_newGenList(3);
 	GenList_remove(g, -5);
 
 	// Si llega aquí es que no ha crasheado
-	CU_PASS("Failed with negative position");
+	TEST_ASSERT_TRUE_MESSAGE(1, "C-GLIST-REM-02: Failed with negative position");
 	
 	GenList_remove(g, 15);
 
 	// Si llega aquí es que no ha crasheado
-	CU_PASS("Failed with out of bounds position");
+	TEST_ASSERT_TRUE_MESSAGE(1, "C-GLIST-REM-02: Failed with out of bounds position");
 }
 
 /*  C-GLIST-REM-03  */
-void test_RemoveExistingElement(void) {
-
+TEST(GenList, test_RemoveExistingElement)
+{
 	GenList g = GenList_newGenList(3);
 	int a = 1, b = 2, c = 4;
 	GenList_add(g, &a);
 	GenList_add(g, &b);
 	GenList_add(g, &c);
 	
-	CU_ASSERT_PTR_NOT_NULL(GenList_getExistingObject(g, &a, fun));
+	TEST_ASSERT_NOT_NULL_MESSAGE(GenList_getExistingObject(g, &a, fun),
+		"C-GLIST-REM-03: Object did not exist");
 	
 	GenList_remove(g, 0);
 	
-	CU_ASSERT_PTR_NULL(GenList_getExistingObject(g, &a, fun));
-
+	TEST_ASSERT_NULL_MESSAGE(GenList_getExistingObject(g, &a, fun),
+		"C-GLIST-REM-03: Object still exists in list");
 }
 
 /*  C-GLIST-ELEM-01  */
-void test_GetElementFromNull(void) {
-
-	CU_ASSERT_PTR_NULL(GenList_getElement(NULL, 2));
+TEST(GenList, test_GetElementFromNull)
+{
+	TEST_ASSERT_NULL_MESSAGE(GenList_getElement(NULL, 2),
+		"C-GLIST-ELEM-01: Got element from null list");
 }
 
 /*  C-GLIST-ELEM-02  */
-void test_GetElementFromOutofBounds(void) {
-
+TEST(GenList, test_GetElementFromOutofBounds)
+{
 	GenList g = GenList_newGenList(3);
 
-	CU_ASSERT_PTR_NULL(GenList_getElement(g, -5));
-	CU_ASSERT_PTR_NULL(GenList_getElement(g, 15));
+	TEST_ASSERT_NULL_MESSAGE(GenList_getElement(g, -5),
+		"C-GLIST-ELEM-02: Got element from negative position");
+	TEST_ASSERT_NULL_MESSAGE(GenList_getElement(g, 15),
+		"C-GLIST-ELEM-02: Got element from out of bounds position");
 }
 
 /*  C-GLIST-ELEM-03  */
-void test_GetExistingElement(void) {
-
+TEST(GenList, test_GetExistingElement)
+{
 	GenList g = GenList_newGenList(3);
 	int a = 2;
 	GenList_add(g, &a);
 	
-	CU_ASSERT_PTR_NOT_NULL(GenList_getElement(g, 0));
-	CU_ASSERT_PTR_EQUAL(GenList_getElement(g, 0), &a);
+	TEST_ASSERT_NOT_NULL_MESSAGE(GenList_getElement(g, 0),
+		"C-GLIST-ELEM-03: Failed to get an element");
+	TEST_ASSERT_EQUAL_INT_MESSAGE(GenList_getElement(g, 0), &a,
+		"C-GLIST-ELEM-03: Element is not the same");
 }
 
 /*  C-GLIST-EXOB-01  */
-void test_GExObFromNull(void) {
-
+TEST(GenList, test_GExObFromNull)
+{
 	int a = 4;
-	CU_ASSERT_PTR_NULL(GenList_getExistingObject(NULL, &a, fun));
-
+	TEST_ASSERT_NULL_MESSAGE(GenList_getExistingObject(NULL, &a, fun),
+		"C-GLIST-EXOB-01: Got an element from null list");
 }
 
 /*  C-GLIST-EXOB-02  */
-void test_GExObNull(void) {
-
+TEST(GenList, test_GExObNull)
+{
 	GenList g = GenList_newGenList(3);
-	CU_ASSERT_PTR_NULL(GenList_getExistingObject(g, NULL, fun));
-
+	TEST_ASSERT_NULL_MESSAGE(GenList_getExistingObject(g, NULL, fun),
+		"C-GLIST-EXOB-02: Got a null element");
 }
 
 /*  C-GLIST-EXOB-03  */
-void test_GExObFunctionNull(void) {
-
+TEST(GenList, test_GExObFunctionNull)
+{
 	GenList g = GenList_newGenList(3);
 	int a = 4;
 	GenList_add(g, &a);
-	CU_ASSERT_PTR_NULL(GenList_getExistingObject(g, &a, NULL));
-
+	TEST_ASSERT_NULL_MESSAGE(GenList_getExistingObject(g, &a, NULL),
+		"C-GLIST-EXOB-03: Got an element from null function");
 }
 
 /*  C-GLIST-EXOB-04  */
-void test_GExObNotExisting(void) {
-
+TEST(GenList, test_GExObNotExisting)
+{
 	GenList g = GenList_newGenList(3);
 	int a = 4;
 	
-	CU_ASSERT_PTR_NULL(GenList_getExistingObject(g, &a, fun));
+	TEST_ASSERT_NULL_MESSAGE(GenList_getExistingObject(g, &a, fun),
+		"C-GLIST-EXOB-04: Got a not existing element");
 }
 
 /*  C-GLIST-EXOB-05  */
-void test_GExObExisting(void) {
-
+TEST(GenList, test_GExObExisting)
+{
 	GenList g = GenList_newGenList(3);
 	int a = 4;
 	GenList_add(g, &a);
 	
-	CU_ASSERT_PTR_NOT_NULL(GenList_getExistingObject(g, &a, fun));
-	CU_ASSERT_PTR_EQUAL(GenList_getExistingObject(g, &a, fun), &a);
+	TEST_ASSERT_NOT_NULL_MESSAGE(GenList_getExistingObject(g, &a, fun),
+		"C-GLIST-EXOB-05: Element does not exist");
+	TEST_ASSERT_EQUAL_INT_MESSAGE(GenList_getExistingObject(g, &a, fun), &a,
+		"C-GLIST-EXOB-05: Not the same element");
 }
 
 /*  C-GLIST-STR-01  */
-void test_ToStringFromNull(void) {
-
-	CU_ASSERT_PTR_NULL(GenList_toString(NULL, str));
+TEST(GenList, test_ToStringFromNull)
+{
+	TEST_ASSERT_NULL_MESSAGE(GenList_toString(NULL, str),
+		"C-GLIST-STR-01: Got string from null list");
 }
 
 /*  C-GLIST-STR-02  */
-void test_ToStringFunctionNull(void) {
-
-	GenList g = GenList_newGenList(3);
-
-	CU_ASSERT_PTR_NULL(GenList_toString(g, NULL));
+TEST(GenList, test_ToStringFunctionNull)
+{
+	TEST_ASSERT_NULL_MESSAGE(GenList_toString(GenList_newGenList(3), NULL),
+		"C-GLIST-STR-02: Got string with null function");
 }
 
 /*  C-GLIST-STR-03  */
-void test_ToStringNormal(void) {
-
+TEST(GenList, test_ToStringNormal)
+{
 	GenList g = GenList_newGenList(3);
 	char a[] = "a";
 	GenList_add(g, &a);
 	char *r = GenList_toString(g, str);
 
-	CU_ASSERT_STRING_EQUAL(r, r);
-}
-
-/*
-  Función principal para la ejecución de las pruebas.
-  Devuelve CUE_SUCCESS si pasan correctamente,
-  o un error CUnit si alguna falla.
- */
-int main()
-{
-
-	printf("\n\nBEGIN GENLIST MODULE'S UNIT TESTING\n");
-
-	CU_pSuite pSuite = NULL;
-
-	/* inicializar el registro de pruebas CUnit */
-	if (CUE_SUCCESS != CU_initialize_registry())
-		return CU_get_error();
-
-	/* añadir una suite de pruebas al registro */
-	pSuite = CU_add_suite("Suite_GenList", init_suiteGenList, clean_suiteGenList);
-	if (NULL == pSuite) {
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-
-	/* añadir las pruebas de la suite GenList */
-	/* ATENCIÓN: EL ORDEN ES IMPORTANTE */
-	if (NULL == CU_add_test(pSuite, "C-GLIST-NEW-02", test_NewGenListZeroBuffer)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-GBUF-01", test_GetBufferFromNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-GSIZ-01", test_GetSizeFromNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-01", test_AddFromNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-02", test_AddNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-03", test_AddToFullBuffer)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-ADD-04", test_AddWithSpace)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-REM-01", test_RemoveFromNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-REM-02", test_RemoveOutofBounds)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-REM-03", test_RemoveExistingElement)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-ELEM-01", test_GetElementFromNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-ELEM-02", test_GetElementFromOutofBounds)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-ELEM-03", test_GetExistingElement)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-01", test_GExObFromNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-02", test_GExObNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-03", test_GExObFunctionNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-04", test_GExObNotExisting)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-EXOB-05", test_GExObExisting)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-STR-01", test_ToStringFromNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-STR-02", test_ToStringFunctionNull)
-	||  NULL == CU_add_test(pSuite, "C-GLIST-STR-02", test_ToStringNormal))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-
-	/* ejecutar las pruebas usando la interfaz CUnit Basic */
-	CU_basic_set_mode(CU_BRM_VERBOSE);
-	CU_basic_run_tests();
-
-	CU_cleanup_registry();
-
-	QCC_init(0);
-
-	printf("\n\t\t*************************************\n\n"
-		   "\t\t\tQuickCheck4C testing:\n\n"
-		   "\t\t*************************************\n\n");
-
-	printf("C-GLIST-NEW-01:\t");
-	QCC_testForAll(1000, 1, test_NewGenListNegBuffer, 1, QCC_genNegativeInt);
-	printf("C-GLIST-NEW-03:\t");
-	QCC_testForAll(1000, 1, test_NewGenListPosBuffer, 1, QCC_genPositiveInt);
-
-	printf("\n\nEND GENLIST MODULE'S UNIT TESTING\n");
-
-	return CU_get_error();
+	TEST_ASSERT_EQUAL_STRING_MESSAGE(r, r,
+		"C-GLIST-STR-03: Not the same string");
 }
