@@ -39,6 +39,10 @@ unity:
 	bundle exec rake # Run all CMock library tests
 	cd ..
 
+mocks:
+	mkdir mocks
+	ruby cmock/lib/cmock.rb -oMockConfig.yml include/Symbol.h include/State.h include/GenList.h
+
 cunit:
 	@echo "Compiling source files..."
 	@gcc -Wall -c --coverage $(files)
@@ -90,6 +94,6 @@ clean_reports:
 	@echo "Deleting documentation... Done."
 
 clean:
-	rm -rf *~ core $(output) $(unity_tests) *-qcc *-test *.tst doc/cppcheck.xml doc/coverage *.gcda *.gcno *.o
+	rm -rf *~ core $(output) $(unity_tests) *-qcc *-test *.tst doc/cppcheck.xml doc/coverage *.gcda *.gcno *.o mocks/* mocks/
 	@echo "Cleaning directories... Done."
 
