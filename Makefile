@@ -14,12 +14,15 @@ SRC_FILES=\
   State.o \
   Symbol.o \
   GenList.o \
+  Transition.o \
   test/State-test.c \
   test/Symbol-test.c \
   test/GenList-test.c \
+  test/Transition-test.c \
   test/test_runners/TestState_Runner.c \
   test/test_runners/TestSymbol_Runner.c \
   test/test_runners/TestGenList_Runner.c \
+  test/test_runners/TestTransition_Runner.c \
   test/test_runners/all_tests.c
 INC_DIRS=-Iinclude -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 
