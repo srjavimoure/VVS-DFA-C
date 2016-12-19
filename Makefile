@@ -35,12 +35,12 @@ cunit:
 	@echo "Compiling source files..."
 	@gcc -Wall -c --coverage $(files)
 	@gcc -Wall -c $(qcc) # QuickCheck va separado para que cobertura no lo considere
-	@gcc -Wall --coverage -o $(unity_tests) -DUNITY_FIXTURES $(INC_DIRS) $(SRC_FILES) -lcunit
-	@gcc -Wall --coverage -o Symbol-qcc Symbol.o quickcheck4c.o test/Symbol-qcc.c -lcunit
-	@gcc -Wall --coverage -o State-qcc State.o quickcheck4c.o test/State-qcc.c -lcunit
-	@gcc -Wall --coverage -o GenList-qcc GenList.o quickcheck4c.o test/GenList-qcc.c -lcunit
-	@#gcc -Wall --coverage -o Transition-test Transition.o test/Transition-test.c -lcunit
-	@#gcc -Wall --coverage -o DFA-test DFA.o test/DFA-test.c -lcunit
+	@gcc -Wall --coverage -o $(unity_tests) -DUNITY_FIXTURES $(INC_DIRS) $(SRC_FILES)
+	@gcc -Wall --coverage -o Symbol-qcc Symbol.o quickcheck4c.o test/Symbol-qcc.c
+	@gcc -Wall --coverage -o State-qcc State.o quickcheck4c.o test/State-qcc.c
+	@gcc -Wall --coverage -o GenList-qcc GenList.o quickcheck4c.o test/GenList-qcc.c
+	@#gcc -Wall --coverage -o Transition-test Transition.o test/Transition-test.c
+	@#gcc -Wall --coverage -o DFA-test DFA.o test/DFA-test.c
 	@echo "Compiling source files... Done."
 
 tests: cunit
