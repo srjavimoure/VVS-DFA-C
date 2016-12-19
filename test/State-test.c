@@ -9,6 +9,12 @@ TEST_SETUP(State) {}
 
 TEST_TEAR_DOWN(State) {}
 
+/**********************************************
+
+	PRUEBAS CON UNITY PARA EL MÓDULO STATE
+
+**********************************************/
+
 /*  C-ST-NEW-01  */
 TEST(State, test_NewStateWithNullSequence)
 {
@@ -41,7 +47,7 @@ TEST(State, test_GetStateFromNull)
 TEST(State, test_HashCodeFromNull)
 {
 	TEST_ASSERT_EQUAL_INT_MESSAGE(State_hashCode(NULL), -1,
-		"C-ST-HASH-02: Hashcodes for null is not -1");
+		"C-ST-HASH-02: Hashcode for null is not -1");
 }
 
 /*  C-ST-EQ-04  */
@@ -51,6 +57,8 @@ TEST(State, test_EqualToNullObject)
 
 	TEST_ASSERT_FALSE_MESSAGE(State_equals(s, NULL),
 		"C-ST-EQ-04: State is equal to null");
+	TEST_ASSERT_FALSE_MESSAGE(State_equals(NULL, s),
+		"C-ST-EQ-04: null is equal to State");
 
 	State_destroy(&s);
 }
@@ -64,7 +72,9 @@ TEST(State, test_ToString)
 
 	State s = State_newState(sec);
 
-	TEST_ASSERT_EQUAL_STRING_MESSAGE(sec, State_getState(s),
+	TEST_ASSERT_FALSE_MESSAGE(sec == State_toString(s),
+		"C-SYM-STR-01: String pointers are equal");
+	TEST_ASSERT_EQUAL_STRING_MESSAGE(sec, State_toString(s),
 		"C-ST-STR-01: Strings are not equal");
 
 	State_destroy(&s);
@@ -76,15 +86,3 @@ TEST(State, test_ToStringFromNull)
 	TEST_ASSERT_NULL_MESSAGE(State_toString(NULL),
 		"C-ST-STR-02: String is not null");
 }
-
-
-
-
-
-
-
-
-
-
-
-

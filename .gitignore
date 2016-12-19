@@ -13,3 +13,5 @@ coverage.info
 mocks/*
 Unity/*
 cmock/*
+Unity/
+cmock/
