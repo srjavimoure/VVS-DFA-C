@@ -46,7 +46,7 @@ mocks:
 	mkdir mocks
 	ruby cmock/lib/cmock.rb -oMockConfig.yml include/Symbol.h include/State.h include/GenList.h
 
-cunit:
+cunit: mocks
 	@echo "Compiling source files..."
 	@gcc -Wall -c --coverage $(files)
 	@gcc -Wall -c $(qcc) # QuickCheck va separado para que cobertura no lo considere
