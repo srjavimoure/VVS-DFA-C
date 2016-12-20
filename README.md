@@ -18,7 +18,11 @@ Ocaml: https://github.com/andreu-barro/VVS-DFA-OCAML
 
 ### Ejecución y creación de documentos
 
-Para la ejecución de las pruebas, se emplea el siguiente comando:  
+Lo primero, para la ejecución de pruebas es necesario descargar Unity y CMock:  
+
+`make unity`  
+
+Una vez tengamos dichas librerías instaladas, podremos iniciar la ejecución de las pruebas, empleando el siguiente comando:  
 
 `make tests`  
 
@@ -37,3 +41,5 @@ O también, para compilar previamente (lo cual incluye ejecutar las pruebas):
 `make file=*nombre_archivo*`
 
 No es necesario especificar la carpeta `resources/` a la hora de dar el nombre del archivo del autómata.  
+
+

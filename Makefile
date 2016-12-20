@@ -19,12 +19,15 @@ SRC_FILES=\
   test/Symbol-test.c \
   test/GenList-test.c \
   test/Transition-test.c \
+  mocks/MockSymbol.c \
+  mocks/MockState.c \
+  mocks/MockGenList.c \
   test/test_runners/TestState_Runner.c \
   test/test_runners/TestSymbol_Runner.c \
   test/test_runners/TestGenList_Runner.c \
   test/test_runners/TestTransition_Runner.c \
   test/test_runners/all_tests.c
-INC_DIRS=-Iinclude -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
+INC_DIRS=-Imocks -Iinclude -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 
 output = out
 files = source/Symbol.c source/State.c source/GenList.c source/Alphabet.c source/Transition.c source/DFA.c source/main.c
@@ -48,12 +51,13 @@ mocks:
 
 cunit: mocks
 	@echo "Compiling source files..."
-	@gcc -Wall -c --coverage $(files)
-	@gcc -Wall -c $(qcc) # QuickCheck va separado para que cobertura no lo considere
-	@gcc -Wall --coverage -o $(unity_tests) -DUNITY_FIXTURES $(INC_DIRS) $(SRC_FILES)
-	@gcc -Wall --coverage -o Symbol-qcc Symbol.o quickcheck4c.o test/Symbol-qcc.c
-	@gcc -Wall --coverage -o State-qcc State.o quickcheck4c.o test/State-qcc.c
-	@gcc -Wall --coverage -o GenList-qcc GenList.o quickcheck4c.o test/GenList-qcc.c
+	gcc -Wall -c --coverage $(files)
+	gcc -Wall -c $(INCL_DIRS) -DUNITY_FIXTURES mocks/MockState.c mocks/MockSymbol.c mocks/MockGenList.c
+	gcc -Wall -c $(qcc) # QuickCheck va separado para que cobertura no lo considere
+	gcc -Wall --coverage -o $(unity_tests) -DUNITY_FIXTURES $(INC_DIRS) $(SRC_FILES)
+	gcc -Wall --coverage -o Symbol-qcc Symbol.o quickcheck4c.o test/Symbol-qcc.c
+	gcc -Wall --coverage -o State-qcc State.o quickcheck4c.o test/State-qcc.c
+	gcc -Wall --coverage -o GenList-qcc GenList.o quickcheck4c.o test/GenList-qcc.c
 	@#gcc -Wall --coverage -o Transition-test Transition.o test/Transition-test.c
 	@#gcc -Wall --coverage -o DFA-test DFA.o test/DFA-test.c
 	@echo "Compiling source files... Done."
