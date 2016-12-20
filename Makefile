@@ -37,17 +37,28 @@ file_example = example.dfa
 
 all: tests compile run
 
-unity:
-	git clone https://github.com/ThrowTheSwitch/Unity.git
+cmock:
 	git clone --recursive https://github.com/throwtheswitch/cmock.git
 	cd cmock
 	bundle install # Ensures you have all RubyGems needed
 	bundle exec rake # Run all CMock library tests
 	cd ..
 
+
+unity: cmock
+	git clone https://github.com/ThrowTheSwitch/Unity.git
+
+milu:
+	git clone https://github.com/yuejia/Milu
+
 mocks:
 	mkdir mocks
 	ruby cmock/lib/cmock.rb -oMockConfig.yml include/Symbol.h include/State.h include/GenList.h
+
+mutation:
+	@echo "Creating mutations..."
+	./Milu/bin/milu source/Symbol.c
+	@echo "Creating mutations... Done"
 
 cunit: mocks
 	@echo "Compiling source files..."
