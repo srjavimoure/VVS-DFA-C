@@ -1,3 +1,5 @@
+milu_output/*
+milu_output/
 doc/cppcheck/**
 doc/coverage/**
 *~
