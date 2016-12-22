@@ -31,6 +31,23 @@ file_example = example.dfa
 
 all: tests compile run
 
+performance:
+	@rm -rf doc/performance.txt
+	#touch doc/performance.txt
+	@echo "Sin opciones añadidas (compilación normal):"
+	gcc -o $(output) $(files)
+	time ./$(output) -f $(dfa_file)/$(file) #>> doc/performance.txt
+	@echo "Optimización básica (-O1)"
+	gcc -O1 -o $(output) $(files)
+	time ./$(output) -f $(dfa_file)/$(file) #>> doc/performance.txt
+	@echo "Optimización recomendada (-02)"
+	gcc -O2 -o $(output) $(files)
+	time ./$(output) -f $(dfa_file)/$(file) #>> doc/performance.txt
+	@echo "Optimización intensa (-O3)"
+	gcc -O3 -o $(output) $(files)
+	time ./$(output) -f $(dfa_file)/$(file) #>> doc/performance.txt
+	rm $(output)
+
 cmock:
 	git clone --recursive https://github.com/throwtheswitch/cmock.git
 	cd cmock
@@ -39,7 +56,7 @@ cmock:
 	cd ..
 
 
-unity: cmock
+unity:
 	git clone https://github.com/ThrowTheSwitch/Unity.git
 
 milu:
