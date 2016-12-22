@@ -71,7 +71,7 @@ char *Transition_toString(void *this) {
 
 	Transition th = (Transition) this;
 
-	string = strcat(string, State_toString(th->initialState));
+	string = strcpy(string, State_toString(th->initialState));
 	string = strcat(string, "->");
 	string = strcat(string, State_toString(th->endingState));
 	string = strcat(string, " USING ");

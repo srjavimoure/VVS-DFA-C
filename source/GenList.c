@@ -115,7 +115,7 @@ char *GenList_toString(GenList this, char *(*toString)(void *element)) {
 
 	char *string = (char *) malloc(sizeof(char) * 100);
 
-	string = strcat(string, "{");
+	string = strcpy(string, "{");
 
 	int i;
 	for (i = 0; i < GenList_getSize(this); i++) {

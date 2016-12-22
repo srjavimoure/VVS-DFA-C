@@ -34,7 +34,7 @@ char *Alphabet_toString(Alphabet this) {
 
 	char *string = (char *) malloc(sizeof(char) * 100);
 
-	string = strcat(string, "Alphabet{");
+	string = strcpy(string, "Alphabet{");
 
 	GenList gl = Alphabet_getAlphabet(this);
 

@@ -114,7 +114,7 @@ char *DFA_getTransitionsTable(DFA this) {
 
 	GenList tr = this->transitions;
 
-	string = strcat(string, "\n|\t");
+	string = strcpy(string, "\n|\t");
 
 	// Alphabet
 	int i;
@@ -133,7 +133,7 @@ char *DFA_toString(DFA this) {
 	char *string = (char *) malloc(sizeof(char) * 1000);
 
 	// States
-	string = strcat(string, "DFA{\n   States{");
+	string = strcpy(string, "DFA{\n   States{");
 	int i;
 	for (i = 0; i < GenList_getSize(this->states); i++) {
 		string = strcat(string, State_toString(GenList_getElement(this->states, i)));

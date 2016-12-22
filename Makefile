@@ -7,27 +7,21 @@
 
 UNITY_ROOT=./Unity
 
-unity_tests = unity
+test_exe = unity
 SRC_FILES=\
   $(UNITY_ROOT)/src/unity.c \
   $(UNITY_ROOT)/extras/fixture/src/unity_fixture.c \
   State.o \
   Symbol.o \
   GenList.o \
-  Transition.o \
   test/State-test.c \
   test/Symbol-test.c \
   test/GenList-test.c \
-  test/Transition-test.c \
-  mocks/MockSymbol.c \
-  mocks/MockState.c \
-  mocks/MockGenList.c \
   test/test_runners/TestState_Runner.c \
   test/test_runners/TestSymbol_Runner.c \
   test/test_runners/TestGenList_Runner.c \
-  test/test_runners/TestTransition_Runner.c \
-  test/test_runners/all_tests.c
-INC_DIRS=-Imocks -Iinclude -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
+  test/test_runners/unity_tests.c
+MOCKS_INC=-I./mocks -I./cmock/src -I./include -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 
 output = out
 files = source/Symbol.c source/State.c source/GenList.c source/Alphabet.c source/Transition.c source/DFA.c source/main.c
@@ -51,38 +45,42 @@ unity: cmock
 milu:
 	git clone https://github.com/yuejia/Milu
 
-mocks:
-	mkdir mocks
-	ruby cmock/lib/cmock.rb -oMockConfig.yml include/Symbol.h include/State.h include/GenList.h
+cmocks:
+	@rm -rf mocks/*
+	@mkdir -p mocks
+	@echo "Creating mocks..."
+	@ruby cmock/lib/cmock.rb -oMockConfig.yml include/Symbol.h include/State.h include/GenList.h
 
 mutation:
 	@echo "Creating mutations..."
 	./Milu/bin/milu source/Symbol.c
 	@echo "Creating mutations... Done"
 
-cunit: mocks
-	@echo "Compiling source files..."
-	gcc -Wall -c --coverage $(files)
-	gcc -Wall -c $(INCL_DIRS) -DUNITY_FIXTURES mocks/MockState.c mocks/MockSymbol.c mocks/MockGenList.c
-	gcc -Wall -c $(qcc) # QuickCheck va separado para que cobertura no lo considere
-	gcc -Wall --coverage -o $(unity_tests) -DUNITY_FIXTURES $(INC_DIRS) $(SRC_FILES)
+unit: cmocks
+	@echo "Compiling Symbol.c, State.c and GenList.c."
+	gcc -Wall -c --coverage source/Symbol.c source/State.c source/GenList.c
+	@echo "Compiling QuickCheck4c." # QuickCheck va separado para que cobertura no lo considere
+	gcc -Wall -c $(qcc)
 	gcc -Wall --coverage -o Symbol-qcc Symbol.o quickcheck4c.o test/Symbol-qcc.c
 	gcc -Wall --coverage -o State-qcc State.o quickcheck4c.o test/State-qcc.c
 	gcc -Wall --coverage -o GenList-qcc GenList.o quickcheck4c.o test/GenList-qcc.c
+	@echo "Mocks for Symbol, State and GenList..."
+	gcc -Wall -c $(MOCKS_INC) -DUNITY_FIXTURES mocks/MockState.c mocks/MockSymbol.c mocks/MockGenList.c
+	gcc -Wall --coverage -o $(test_exe) -DUNITY_FIXTURES $(MOCKS_INC) $(SRC_FILES)
 	@#gcc -Wall --coverage -o Transition-test Transition.o test/Transition-test.c
 	@#gcc -Wall --coverage -o DFA-test DFA.o test/DFA-test.c
 	@echo "Compiling source files... Done."
 
-tests: cunit
+tests: unit
 	@echo "Running tests..."
-	@./$(unity_tests) -v
+	@./$(test_exe) -v
 	@./Symbol-qcc
 	@./State-qcc
 	@./GenList-qcc
 	@#./Transition-test
 	@#./DFA-test
 	@echo "Running tests... Done."
-	
+
 doc: tests
 	@echo "Generating documentation..."
 	@# CppCheck
@@ -112,6 +110,6 @@ clean_reports:
 	@echo "Deleting documentation... Done."
 
 clean:
-	rm -rf *~ core $(output) $(unity_tests) *-qcc *-test *.tst doc/cppcheck.xml doc/coverage *.gcda *.gcno *.o mocks/* mocks/
+	rm -rf *~ core $(output) $(test_exe) *-qcc *-test *.tst doc/cppcheck.xml doc/coverage *.gcda *.gcno *.o mocks/* mocks/
 	@echo "Cleaning directories... Done."
 
