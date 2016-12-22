@@ -161,7 +161,10 @@ DFA DFAasFile(char *filename) {
 		string[i++] = c;
 		if (i == size) {
 			size += 100;
-			string = realloc(string, sizeof(char) * size);
+			char *buf = (char *) malloc(sizeof(char) * size);
+			buf = strcpy(buf, string);
+			free(string);
+			string = buf;
 		}
 	}
 	string[i-1] = '\0';
