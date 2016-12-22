@@ -27,7 +27,10 @@ GenList GenList_newGenList(int buffer) {
 
 	genList->list = (void *) malloc(sizeof(void *) * genList->realSize);
 
-	if (genList->list == NULL)	return NULL;
+	if (genList->list == NULL) {
+		free(genList);
+		return NULL;
+	}
 
 	return genList;
 }

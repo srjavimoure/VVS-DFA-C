@@ -29,7 +29,10 @@ Symbol Symbol_newSymbol(char *sequence) {
 		this->sequence = (char *) malloc(sizeof(char) * this->size);
 	}
 
-	if (this->sequence == NULL)	return NULL;
+	if (this->sequence == NULL)	{
+		free(this);
+		return NULL;
+	}
 
 	memcpy(this->sequence, sequence, this->size);
 
